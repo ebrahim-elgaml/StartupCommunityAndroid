@@ -1,7 +1,10 @@
 package localhost3000.startupcommunity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -56,6 +59,12 @@ public class HomeActivity extends Activity {
 //            ...
 //        });
 
+
+    }
+    public void loginLatter(View view) {
+        Intent intent = new Intent(this, NewsFeed.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), "Enjoy surfing", Toast.LENGTH_SHORT).show();
     }
 
 
