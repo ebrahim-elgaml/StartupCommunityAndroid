@@ -3,4 +3,17 @@
 
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="facebook_app_id">1052386651448510</string>
+    <string name="title_activity_friend_request">FriendRequest</string>
+
+    <string name="title_section1">Home</string>
+    <string name="title_section2">Profile</string>
+    <string name="title_section3">Friend Request</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
