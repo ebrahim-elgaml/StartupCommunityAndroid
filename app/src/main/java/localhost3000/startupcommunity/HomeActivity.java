@@ -4,11 +4,15 @@ import localhost3000.startupcommunity.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -50,7 +54,7 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
-
+        //setContentView(R.layout.fragment_friends);
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
 
@@ -107,6 +111,30 @@ public class HomeActivity extends Activity {
                 }
             }
         });
+
+
+
+
+
+
+
+        // myriame gayalko 5abo 3yalko
+        Button buttonname;
+        buttonname = (Button) findViewById(R.id.dummy_button) ;
+        buttonname.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), profile.class));
+                //friends friends = new friends();
+                //friendsfragment f = new
+                //getFragmentManager().beginTransaction().replace(R.id.fragment);
+            }
+        });
+
+
+
+
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
