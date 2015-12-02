@@ -2,28 +2,23 @@ package localhost3000.startupcommunity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import localhost3000.startupcommunity.dummy.DummyContent;
+import localhost3000.startupcommunity.dummy.FriendRequestList;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
- */
-public class FriendRequestListFragment extends Fragment implements AbsListView.OnItemClickListener {
+
+public class FriendRequestListFragment extends android.support.v4.app.Fragment implements AbsListView.OnItemClickListener, FriendRequestList.PlayToastAlert {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +29,7 @@ public class FriendRequestListFragment extends Fragment implements AbsListView.O
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListenerRequestList mListener;
 
     /**
      * The fragment's ListView/GridView.
@@ -46,7 +41,7 @@ public class FriendRequestListFragment extends Fragment implements AbsListView.O
      * Views.
      */
     private ListAdapter mAdapter;
-
+    FriendRequestList friendRequestAdapter;
     // TODO: Rename and change types of parameters
     public static FriendRequestListFragment newInstance(String param1, String param2) {
         FriendRequestListFragment fragment = new FriendRequestListFragment();
@@ -72,23 +67,50 @@ public class FriendRequestListFragment extends Fragment implements AbsListView.O
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        List<FriendRequestList.SingleRequest> a = new ArrayList<FriendRequestList.SingleRequest>();
+        a.add(new FriendRequestList.SingleRequest("Ebrahim", 1, "ebrahim_img"));
+        a.add(new FriendRequestList.SingleRequest("Renad", 2, "renad_img"));
+        List<String> s = new ArrayList<String>();
+        s.add("ebrahim");
+        s.add("renad");
+
+        friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
+
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+//        mAdapter = new ArrayAdapter<FriendRequestList>(getActivity(),
+//                R.layout.single_friend_request, FriendRequestList.items);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_friendrequestlist, container, false);
+       //View view = inflater.inflate(android.R.layout.simple_list_item_1, container, false);
+        View view = inflater.inflate(R.layout.fragment_request1, container, false);
 
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
+
+//        friendRequestAdapter =  new FriendRequestList()
+        //FriendRequestList f = new FriendRequestList(this, a,s);
         // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        List<FriendRequestList.SingleRequest> a = new ArrayList<FriendRequestList.SingleRequest>();
+        a.add(new FriendRequestList.SingleRequest("Ebrahim", 1, "ebrahim_img"));
+        a.add(new FriendRequestList.SingleRequest("Renad", 2, "renad_img"));
+        List<String> s = new ArrayList<String>();
+        s.add("ebrahim");
+        s.add("renad");
+
+        friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
+
+
+        //mListView.setOnItemClickListener(this);
+        //mListView = (AbsListView) view.findViewById(android.R.id.list);
+        mListView = (AbsListView) view.findViewById(R.id.listview_requests);
+        //((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        ((AdapterView<ListAdapter>) mListView).setAdapter(friendRequestAdapter);
+
 
         return view;
     }
@@ -97,7 +119,7 @@ public class FriendRequestListFragment extends Fragment implements AbsListView.O
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListenerRequestList) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -132,6 +154,14 @@ public class FriendRequestListFragment extends Fragment implements AbsListView.O
         }
     }
 
+    @Override
+    public void playToast(String id) {
+        Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -142,7 +172,7 @@ public class FriendRequestListFragment extends Fragment implements AbsListView.O
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListenerRequestList {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }

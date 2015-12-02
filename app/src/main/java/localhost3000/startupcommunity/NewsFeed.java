@@ -8,9 +8,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import localhost3000.startupcommunity.dummy.FriendRequestList;
 
 public class NewsFeed extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener{
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, FriendRequestListFragment.OnFragmentInteractionListenerRequestList
+        , FriendRequestList.PlayToastAlert{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -46,8 +50,8 @@ public class NewsFeed extends AppCompatActivity
         switch(position){
             case 0:   f = new NewsFeedFragment(); break;
             case 1:   f = new ProfileFragment();break;
-            case 2:   f = new RequestFragment();break;
-            default: f = new NewsFeedFragment();
+            case 2:   f = new FriendRequestListFragment();break;
+            default: f = new FriendRequestListFragment();
         }
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
 //        fragmentManager.beginTransaction()
@@ -118,6 +122,16 @@ public class NewsFeed extends AppCompatActivity
     @Override
     public void onRequestFragmentInteraction(int position) {
 
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+
+    }
+
+    @Override
+    public void playToast(String id) {
+        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
     }
 
     /**

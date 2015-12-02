@@ -13,16 +13,34 @@ import java.util.List;
 import localhost3000.startupcommunity.R;
 
 
-public class FriendRequestList extends ArrayAdapter<String>{
+public class FriendRequestList extends ArrayAdapter<String>  implements View.OnClickListener{
     public static List<SingleRequest> items = new ArrayList<SingleRequest>();
     private Activity context;
     PlayToastAlert soundToastAlert;
+
+//    public FriendRequestList(Context context, int resource, int textViewResourceId) {
+//        super(context, resource, textViewResourceId);
+//    }
     public FriendRequestList(Activity context, List<SingleRequest> l, List<String> requestId) {
         super(context, R.layout.single_friend_request, requestId);
         this.items = l;
         this.context = context;
         this.soundToastAlert = (PlayToastAlert)context;
     }
+
+//    public FriendRequestList(Activity context, List<SingleRequest> l, List<String> requestId) {
+//        super(context, R.layout.single_friend_request, requestId);
+//        this.items = l;
+//        this.context = context;
+//        this.soundToastAlert = (PlayToastAlert)context;
+//    }
+//    public FriendRequestList(Activity context, List<SingleRequest> l) {
+//        super(context, R.layout.single_friend_request);
+//        this.items = l;
+//        this.context = context;
+//        this.soundToastAlert = (PlayToastAlert)context;
+//    }
+
 
     private static void addItem(SingleRequest item) {
         items.add(item);
@@ -53,12 +71,12 @@ public class FriendRequestList extends ArrayAdapter<String>{
         if (b != null) {
             int buttonID = (int)b.getTag();
             if (soundToastAlert != null) {
-                soundToastAlert.playToast(id);
+                soundToastAlert.playToast(""+buttonID);
             }
         }
     }
     public interface PlayToastAlert {
-        public void playToast(int id);
+        public void playToast(String id);
     }
 
     public void setContext(Activity context) {

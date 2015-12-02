@@ -15,6 +15,13 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/list_item_string"
-        android:layout_alignBottom="@+id/button"
         android:layout_centerHorizontal="true" />
+
+    <AnalogClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/analogClock"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
