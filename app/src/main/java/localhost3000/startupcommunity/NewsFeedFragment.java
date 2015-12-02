@@ -1,17 +1,21 @@
 package localhost3000.startupcommunity;
-
+//import DetailedPost.java;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.content.Intent;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+//class DetailActivity { }
 
 public class NewsFeedFragment extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -56,7 +60,7 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment {
                 "post no 1","post no 2","post no 3","post no 4","post no 5","post no 6"
         };
         List<String> newsFeed = new ArrayList<String>(Arrays.asList(newsFeedArray));
-        ArrayAdapter mNewsfeedAdapter = new ArrayAdapter(
+        final ArrayAdapter mNewsfeedAdapter = new ArrayAdapter(
                 getActivity(),
                 R.layout.list_item_feed,
                 R.id.list_item_feed_textview,
@@ -64,6 +68,20 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment {
         );
         ListView listView = (ListView) rootView.findViewById(R.id.listview_feed);
         listView.setAdapter(mNewsfeedAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                 String feed = String.valueOf(mNewsfeedAdapter.getItem(position));
+                 Toast.makeText(getActivity(),feed,Toast.LENGTH_SHORT).show();
+                 Intent intent = new Intent(getActivity(),DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT,feed);
+                startActivity(intent);
+            }
+
+
+
+        });
+
         return rootView;
     }
 

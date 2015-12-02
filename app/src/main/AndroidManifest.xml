@@ -28,12 +28,26 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".NewsFeed"
             android:label="@string/title_activity_friend_request" >
-
+        </activity>
+        <activity
+            android:name=".detailActivity"
+            android:label="@string/title_activity_detailed_post"
+            android:parentActivityName=".NewsFeed" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="localhost3000.startupcommunity.NewsFeed" />
+        </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".NewsFeed" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="NewsFeed" />
         </activity>
     </application>
 
