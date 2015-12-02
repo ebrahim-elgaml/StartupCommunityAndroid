@@ -9,15 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 
 public class NewsFeed extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener{
@@ -159,20 +157,20 @@ public class NewsFeed extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
-            String [] newsFeedArray ={
-                 "post no 1","post no 2","post no 3","post no 4","post no 5","post no 6"
-            };
-            ArrayAdapter<String> newsfeedAdapter =
-                    new ArrayAdapter <>(
-                      getActivity(),
-                            R.layout.list_item_feed,
-                            R.id.list_item_feed_textview,
-                            newsFeedArray
-                    );
-            ListView listView = (ListView) rootView.findViewById(
-                    R.id.list_view_feed);
-           listView.setAdapter(newsfeedAdapter);
-
+//            String [] newsFeedArray ={
+//                 "post no 1","post no 2","post no 3","post no 4","post no 5","post no 6"
+//            };
+//            List<String> newsFeed = new ArrayList <String>(Arrays.asList(newsFeedArray));
+//            ArrayAdapter mNewsfeedAdapter = new ArrayAdapter(
+//                    getActivity(),
+//                    R.layout.list_item_feed,
+//                    R.id.list_item_feed_textview,
+//                    newsFeed
+//            );
+//            ListView listView = (ListView) rootView.findViewById(R.id.listview_feed);
+//            //ArrayList <String> item= new ArrayList <String>();
+//            //ArrayAdapter <String> itemAdapter = ArrayAdapter<String>(this,R.)
+//            listView.setAdapter(mNewsfeedAdapter);
             return rootView;
         }
 
