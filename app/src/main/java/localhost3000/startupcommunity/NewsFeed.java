@@ -6,8 +6,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class NewsFeed extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener{
@@ -123,41 +133,55 @@ public class NewsFeed extends AppCompatActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-//    public static class PlaceholderFragment extends Fragment {
-//        /**
-//         * The fragment argument representing the section number for this
-//         * fragment.
-//         */
-//        private static final String ARG_SECTION_NUMBER = "section_number";
-//
-//        /**
-//         * Returns a new instance of this fragment for the given section
-//         * number.
-//         */
-//        public static PlaceholderFragment newInstance(int sectionNumber) {
-//            PlaceholderFragment fragment = new PlaceholderFragment();
-//            Bundle args = new Bundle();
-//            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//            fragment.setArguments(args);
-//            return fragment;
-//        }
-//
-//        public PlaceholderFragment() {
-//        }
-//
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                                 Bundle savedInstanceState) {
-//            View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
-//            return rootView;
-//        }
-//
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PlaceholderFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
+            String [] newsFeedArray ={
+                 "post no 1","post no 2","post no 3","post no 4","post no 5","post no 6"
+            };
+            ArrayAdapter<String> newsfeedAdapter =
+                    new ArrayAdapter <>(
+                      getActivity(),
+                            R.layout.list_item_feed,
+                            R.id.list_item_feed_textview,
+                            newsFeedArray
+                    );
+            ListView listView = (ListView) rootView.findViewById(
+                    R.id.list_view_feed);
+           listView.setAdapter(newsfeedAdapter);
+
+            return rootView;
+        }
+
 //        @Override
 //        public void onAttach(Activity activity) {
 //            super.onAttach(activity);
 //            ((NewsFeed) activity).onSectionAttached(
 //                    getArguments().getInt(ARG_SECTION_NUMBER));
 //        }
-//    }
+    }
 
 }
