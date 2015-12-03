@@ -57,7 +57,12 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
         String [] newsFeedArray ={
-                "post no 1","post no 2","post no 3","post no 4","post no 5","post no 6"
+                "Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+                "Renad has posted on 7asala StartUp You are amazing :P"
+                ,"Renad has posted on 7asala StartUp You are amazing :P"
+                ,"Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+                "Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+                "Renad has posted on 7asala StartUp You are amazing :P"
         };
         List<String> newsFeed = new ArrayList<String>(Arrays.asList(newsFeedArray));
         final ArrayAdapter mNewsfeedAdapter = new ArrayAdapter(

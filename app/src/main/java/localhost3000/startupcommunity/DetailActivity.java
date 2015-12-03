@@ -11,8 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.content.Intent;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -62,7 +68,28 @@ public class DetailActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             Intent intent = getActivity().getIntent();
-            View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_detail3, container, false);
+
+
+            String [] CommentsArray ={
+                    "Comment no 1 Comment no 1 Comment no 1 Comment no 1 Comment no 1",
+                    "Comment no 2 Comment no 2 Comment no 2 Comment no 2 Comment no 2" ,
+                    "Comment no 3 Comment no 3 Comment no 3 Comment no 3 Comment no 3" ,
+                    "Comment no 4 Comment no 4 Comment no 4 Comment no 4 Comment no 4" ,
+                    "Comment no 5 Comment no 5 Comment no 5 Comment no 5 Comment no 5"
+
+            };
+            List<String> comments = new ArrayList<String>(Arrays.asList(CommentsArray));
+            final ArrayAdapter mCommentsAdapter = new ArrayAdapter(
+                    getActivity(),
+                    R.layout.list_item_feed,
+                    R.id.list_item_feed_textview,
+                    comments
+            );
+            ListView listView = (ListView) rootView.findViewById(R.id.listview_comment);
+            listView.setAdapter(mCommentsAdapter);
+
+
             if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
                 String forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
                 ((TextView) rootView.findViewById(R.id.detail_text))
