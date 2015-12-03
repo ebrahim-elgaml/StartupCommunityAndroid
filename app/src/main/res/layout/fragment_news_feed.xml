@@ -9,7 +9,11 @@
     tools:context="localhost3000.startupcommunity.NewsFeed$PlaceholderFragment">
 
        <TextView
-           android:text="Yarab Tesht8al"
+           android:text="News Feed"
+           android:fontFamily="sans-serif-medium"
+           android:textStyle="bold"
+           android:textColor="#ffffff"
+           android:textSize="20sp"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:id="@+id/textView" />

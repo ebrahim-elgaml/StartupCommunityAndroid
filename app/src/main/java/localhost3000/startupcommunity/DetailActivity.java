@@ -82,7 +82,7 @@ public class DetailActivity extends ActionBarActivity {
             List<String> comments = new ArrayList<String>(Arrays.asList(CommentsArray));
             final ArrayAdapter mCommentsAdapter = new ArrayAdapter(
                     getActivity(),
-                    R.layout.list_item_feed,
+                    R.layout.list_item_comment,
                     R.id.list_item_feed_textview,
                     comments
             );

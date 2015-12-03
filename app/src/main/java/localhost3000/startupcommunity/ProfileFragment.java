@@ -111,7 +111,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-
+/*
     private TabHost.TabSpec newTab(String tag, int labelId, int tabContentId) {
         Log.d(TAG, "buildTab(): tag=" + tag);
 
@@ -127,7 +127,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
     }
 
     public void onTabChanged(String tabId) {
-       /*
+
         Log.d(TAG, "onTabChanged(): tabId=" + tabId);
         if (TAB_WORDS.equals(tabId)) {
             updateTab(tabId, R.id.tab_1);
@@ -140,7 +140,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
             return;
         }
         */
-    }
+    //}
 
     private void updateTab(String tabId, int placeholder) {
        // FragmentManager fm = getFragmentManager();
