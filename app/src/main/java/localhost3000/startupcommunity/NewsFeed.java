@@ -7,16 +7,26 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 import android.widget.Toast;
 import android.view.View;
 
 import localhost3000.startupcommunity.dummy.FriendRequestList;
 
+
 public class NewsFeed extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, FriendRequestListFragment.OnFragmentInteractionListenerRequestList
-        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener{
+        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener,friend_profile.OnFragmentInteractionListener{
 
 
     /**
@@ -112,6 +122,10 @@ public class NewsFeed extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onFriendProfileItemSelected(int position) {
+
+    }
 
     @Override
     public void onProfileItemSelected(int position) {
@@ -154,6 +168,8 @@ public class NewsFeed extends AppCompatActivity
             f = new Edit_Profile();
         else if(v.getId() == R.id.register_button)
             f = new ProfileFragment();
+        else if(v.getId() == R.id.people1 || v.getId() == R.id.people2 || v.getId() == R.id.people3   )
+            f = new friend_profile();
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
 
     }
@@ -171,6 +187,51 @@ public class NewsFeed extends AppCompatActivity
     /**
      * A placeholder fragment containing a simple view.
      */
+
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PlaceholderFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
+//            String [] newsFeedArray ={
+//                 "post no 1","post no 2","post no 3","post no 4","post no 5","post no 6"
+//            };
+//            List<String> newsFeed = new ArrayList <String>(Arrays.asList(newsFeedArray));
+//            ArrayAdapter mNewsfeedAdapter = new ArrayAdapter(
+//                    getActivity(),
+//                    R.layout.list_item_feed,
+//                    R.id.list_item_feed_textview,
+//                    newsFeed
+//            );
+//            ListView listView = (ListView) rootView.findViewById(R.id.listview_feed);
+//            //ArrayList <String> item= new ArrayList <String>();
+//            //ArrayAdapter <String> itemAdapter = ArrayAdapter<String>(this,R.)
+//            listView.setAdapter(mNewsfeedAdapter);
+            return rootView;
+        }
+
+
 
 //    public static class PlaceholderFragment extends Fragment {
 //        /**
@@ -201,12 +262,13 @@ public class NewsFeed extends AppCompatActivity
 //            return rootView;
 //        }
 //
+
 //        @Override
 //        public void onAttach(Activity activity) {
 //            super.onAttach(activity);
 //            ((NewsFeed) activity).onSectionAttached(
 //                    getArguments().getInt(ARG_SECTION_NUMBER));
 //        }
-//    }
+    }
 
 }

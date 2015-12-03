@@ -49,6 +49,23 @@
                 android:value=".HomeActivity" >
             </meta-data>
         </activity>
+        <activity
+            android:name=".detailActivity"
+            android:label="@string/title_activity_detailed_post"
+            android:parentActivityName=".NewsFeed" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="localhost3000.startupcommunity.NewsFeed" />
+        </activity>
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".NewsFeed" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="NewsFeed" />
+
+        </activity>
 
         <uses-permission android:name="android.permission.INTERNET" />
 
