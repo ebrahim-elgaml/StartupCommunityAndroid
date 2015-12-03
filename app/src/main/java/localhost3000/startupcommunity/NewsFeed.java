@@ -1,5 +1,6 @@
 package localhost3000.startupcommunity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,9 +9,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class NewsFeed extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener{
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -98,15 +102,29 @@ public class NewsFeed extends AppCompatActivity
         int id = item.getItemId();
 
 //        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+    if (id == R.id.action_settings) {
+        startActivity(new Intent(this, SettingsActivity.class));
+        return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onProfileItemSelected(int position) {
+
+    }
+    @Override
+    public void onEdit_ProfileItemSelected(int position) {
+
+    }
+
+    @Override
+    public void onStartupsItemSelected(int position) {
+
+    }
+
+    public void onStartupsFollowedItemSelected(int position) {
 
     }
 
@@ -119,10 +137,27 @@ public class NewsFeed extends AppCompatActivity
     public void onRequestFragmentInteraction(int position) {
 
     }
+    public void onClick(View v) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.Fragment f = new ProfileFragment();;
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+        if (v.getId() == R.id.friends)
+            f = new ProfileFragment();
+        else if (v.getId() == R.id.MyStartups)
+            f = new startups();
+        else if (v.getId() == R.id.FollowedStartups)
+            f = new followed_startups();
+        else if(v.getId() == R.id.EditProfile)
+            f = new Edit_Profile();
+        else if(v.getId() == R.id.saveEdits)
+            f = new ProfileFragment();
+
+        fragmentManager.beginTransaction().replace(R.id.container, f).commit();
+
+    }
+        /**
+         * A placeholder fragment containing a simple view.
+         */
 //    public static class PlaceholderFragment extends Fragment {
 //        /**
 //         * The fragment argument representing the section number for this
