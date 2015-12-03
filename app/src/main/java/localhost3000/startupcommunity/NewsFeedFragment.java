@@ -1,10 +1,17 @@
 package localhost3000.startupcommunity;
-
+//import DetailedPost.java;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+import android.content.Intent;
+
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -14,6 +21,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+//class DetailActivity { }
 
 public class NewsFeedFragment extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -53,8 +65,39 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news_feed, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
+        String [] newsFeedArray ={
+                "Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+                "Renad has posted on 7asala StartUp You are amazing :P"
+                ,"Renad has posted on 7asala StartUp You are amazing :P"
+                ,"Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+                "Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+                "Renad has posted on 7asala StartUp You are amazing :P"
+        };
+        List<String> newsFeed = new ArrayList<String>(Arrays.asList(newsFeedArray));
+        final ArrayAdapter mNewsfeedAdapter = new ArrayAdapter(
+                getActivity(),
+                R.layout.list_item_feed,
+                R.id.list_item_feed_textview,
+                newsFeed
+        );
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_feed);
+        listView.setAdapter(mNewsfeedAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                 String feed = String.valueOf(mNewsfeedAdapter.getItem(position));
+                 Toast.makeText(getActivity(),feed,Toast.LENGTH_SHORT).show();
+                 Intent intent = new Intent(getActivity(),DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT,feed);
+                startActivity(intent);
+            }
+
+
+
+        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
