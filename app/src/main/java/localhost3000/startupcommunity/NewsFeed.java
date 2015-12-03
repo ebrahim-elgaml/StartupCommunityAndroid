@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Arrays;
 import android.widget.Toast;
 import android.view.View;
-import android.widget.Button;
 
 import localhost3000.startupcommunity.dummy.FriendRequestList;
 
@@ -167,7 +166,7 @@ public class NewsFeed extends AppCompatActivity
             f = new followed_startups();
         else if(v.getId() == R.id.EditProfile)
             f = new Edit_Profile();
-        else if(v.getId() == R.id.saveEdits)
+        else if(v.getId() == R.id.register_button)
             f = new ProfileFragment();
         else if(v.getId() == R.id.people1 || v.getId() == R.id.people2 || v.getId() == R.id.people3   )
             f = new friend_profile();

@@ -54,7 +54,6 @@ public class FriendRequestList extends ArrayAdapter<String>  implements View.OnC
         return context;
     }
     public View getView(int i, View view, ViewGroup viewGroup) {
-
         SingleRequest request = (SingleRequest)items.get(i);
         if (view == null) // reuse existing view
             view = context.getLayoutInflater().inflate(R.layout.single_friend_request,
