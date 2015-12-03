@@ -9,30 +9,22 @@
         android:id="@+id/imageView"
         android:layout_gravity="left|top"
         android:src="@drawable/myriame"
-        android:layout_marginLeft="29dp"
-        android:layout_alignTop="@+id/fullscreen_content"
-        android:layout_alignLeft="@+id/friend1"
-        android:layout_alignStart="@+id/friend1"
-        android:layout_marginStart="29dp" />
-    <TextView android:id="@+id/EditProfile" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textStyle="bold" android:textSize="15sp"
-        android:text="Edit Profile"
-        android:onClick="onClick"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="210dp"/>
-
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="300dp"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginEnd="170dp"
+        android:layout_marginBottom="400dp"
+        android:layout_marginTop="-500dp" />
     <TextView android:id="@+id/fullscreen_content" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textStyle="bold" android:textSize="20sp"
+        android:textStyle="bold" android:textSize="15sp"
         android:text="Myriame Ayman"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="130dp"
+        android:layout_marginLeft="163dp"
         android:layout_marginStart="163dp"
         android:layout_marginTop="70dp"/>
     <TextView android:id="@+id/description" android:layout_width="match_parent"
@@ -42,7 +34,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="130dp"
+        android:layout_marginLeft="163dp"
         android:layout_marginStart="163dp"
         android:layout_marginTop="120dp"/>
     <Button
@@ -56,21 +48,21 @@
         android:background="#00aa00"
         android:textColor="#ffffff"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="295dp"/>
+        android:layout_marginRight="300dp"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="My Startups"
         android:id="@+id/MyStartups"
-        android:onClick="onClick"
         android:layout_gravity="center"
         android:background="#00aa00"
         android:textColor="#ffffff"
+        android:onClick="onClick"
         android:layout_alignTop="@+id/friends"
         android:layout_alignLeft="@+id/fullscreen_content"
         android:layout_alignStart="@+id/fullscreen_content"
-        android:layout_marginLeft="-60dp"
-        android:layout_marginRight="190dp"/>
+        android:layout_marginLeft="-70dp"
+        android:layout_marginRight="200dp"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -83,8 +75,8 @@
         android:layout_alignTop="@+id/MyStartups"
         android:layout_alignLeft="@+id/fullscreen_content"
         android:layout_alignStart="@+id/fullscreen_content"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="100dp"/>
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="120dp"/>
 
     <Button
         android:layout_width="fill_parent"
@@ -105,7 +97,7 @@
     <TextView android:id="@+id/friend1" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textStyle="bold" android:textSize="15sp"
-        android:text="Renad ibrahim"
+        android:text="7asala"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -117,7 +109,7 @@
     <TextView android:id="@+id/friend2" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textStyle="bold" android:textSize="15sp"
-        android:text="Ayman Nabil"
+        android:text="Etbara3"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -129,7 +121,7 @@
     <TextView android:id="@+id/friend3" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textStyle="bold" android:textSize="15sp"
-        android:text="Seham Ibrahim"
+        android:text="blya"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
