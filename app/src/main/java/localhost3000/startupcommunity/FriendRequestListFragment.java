@@ -67,14 +67,7 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        List<FriendRequestList.SingleRequest> a = new ArrayList<FriendRequestList.SingleRequest>();
-        a.add(new FriendRequestList.SingleRequest("Ebrahim", 1, "ebrahim_img"));
-        a.add(new FriendRequestList.SingleRequest("Renad", 2, "renad_img"));
-        List<String> s = new ArrayList<String>();
-        s.add("ebrahim");
-        s.add("renad");
 
-        friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
 
 
         // TODO: Change Adapter to display your content
@@ -87,7 +80,7 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        //View view = inflater.inflate(android.R.layout.simple_list_item_1, container, false);
-        View view = inflater.inflate(R.layout.fragment_request1, container, false);
+        View view = inflater.inflate(R.layout.fragment_request, container, false);
 
         // Set the adapter
 
@@ -96,12 +89,13 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
         //FriendRequestList f = new FriendRequestList(this, a,s);
         // Set OnItemClickListener so we can be notified on item clicks
         List<FriendRequestList.SingleRequest> a = new ArrayList<FriendRequestList.SingleRequest>();
-        a.add(new FriendRequestList.SingleRequest("Ebrahim", 1, "ebrahim_img"));
-        a.add(new FriendRequestList.SingleRequest("Renad", 2, "renad_img"));
+        a.add(new FriendRequestList.SingleRequest("Ebrahim Elgaml", 1, "https://graph.facebook.com/10205421895761103/picture?type=large"));
+        a.add(new FriendRequestList.SingleRequest("Myriame Ayman", 2, "https://graph.facebook.com/100004021915944/picture?type=large"));
+        a.add(new FriendRequestList.SingleRequest("renad Shabaan", 3, "https://graph.facebook.com/1460404964/picture?type=large"));
         List<String> s = new ArrayList<String>();
         s.add("ebrahim");
+        s.add("myriame");
         s.add("renad");
-
         friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
 
 

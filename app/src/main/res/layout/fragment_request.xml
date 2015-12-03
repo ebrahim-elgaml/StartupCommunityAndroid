@@ -11,14 +11,19 @@
     <ListView
         android:id="@+id/listview_requests"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:dividerHeight="15dp"
+        android:divider= "@android:color/transparent"
+        android:background="#0099cc"
+        />
+    <!--android:background="@android:color/transparent"
+    android:cacheColorHint="@android:color/transparent"-->
     <!--<ListView android:id="@android:id/list" android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent" />-->
-
-    <TextView android:id="@android:id/empty" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:gravity="center"
-        android:divider="@android:color/transparent" android:dividerHeight="6dp"
-        android:background="#cccc"/>
+    <!--android:divider="@android:color/transparent"-->
+    <!--<TextView android:id="@android:id/empty" android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" android:gravity="center"-->
+        <!--android:background="#cccc"/>-->
 
 
 </RelativeLayout>

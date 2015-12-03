@@ -5,7 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,20 +59,25 @@ public class FriendRequestList extends ArrayAdapter<String>  implements View.OnC
         if (view == null) // reuse existing view
             view = context.getLayoutInflater().inflate(R.layout.single_friend_request,
                     viewGroup, false);
-        // Set the TextView to the name of the sound
         TextView t = (TextView)view.findViewById(R.id.list_item_string);
         t.setText(request.getName());
-
-        // Set the tag of the button to the sound resource id (uri)
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        Picasso.with(this.context)
+                .load(request.imageUrl)
+                .placeholder(R.drawable.ic_action_name) // optional
+                .error(R.drawable.sleep) // optional
+                .resize(200, 200) // optional
+                .centerCrop()
+                .into(imageView);
         Button b = (Button)view.findViewById(R.id.list_item_button);
-        b.setTag(request.getRequestId());
+        b.setTag(request.getName());
         b.setOnClickListener(this);
         return view;
     }
     public void onClick(View view) {
         Button b = (Button) view;
         if (b != null) {
-            int buttonID = (int)b.getTag();
+            String buttonID = (String)b.getTag();
             if (soundToastAlert != null) {
                 soundToastAlert.playToast(""+buttonID);
             }
