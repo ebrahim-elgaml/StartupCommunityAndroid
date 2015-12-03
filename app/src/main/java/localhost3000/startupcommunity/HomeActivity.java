@@ -8,7 +8,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 import localhost3000.startupcommunity.util.SystemUiHider;
 
@@ -47,7 +59,11 @@ public class HomeActivity extends Activity {
      * The instance of the {@link SystemUiHider} for this activity.
      */
     private SystemUiHider mSystemUiHider;
-
+    LoginButton loginButton;
+    LoginManager loginManager;
+//    TextView t1;
+//    TextView t2;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,18 +71,85 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-      //  LoginButton loginButton = (LoginButton) view.findViewById(R.id.usersettings_fragment_login_button);
+
+        //  LoginButton loginButton = (LoginButton) view.findViewById(R.id.usersettings_fragment_login_button);
 //        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 //            ...
 //        });
+        loginButton = (LoginButton) this.findViewById(R.id.login_button);
+      //  t1 = (TextView) this.findViewById(R.id.test1);
+        //t2 = (TextView) this.findViewById(R.id.test2);
+        loginButton.setReadPermissions(Arrays.asList("public_profile, email"));
+        intent = new Intent(this, LoginActivity.class);
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
 
+                                        //Toast.makeText(getApplicationContext(), "response " + response.toString(), Toast.LENGTH_SHORT).show();
+                                        String email, first_name, last_name;
+                                        String id;
+                                        try {
+                                            email = response.getJSONObject().getString("email");
+                                            first_name = response.getJSONObject().getString("first_name");
+                                            last_name = response.getJSONObject().getString("last_name");
+                                            id = response.getJSONObject().getString("id");
+                                            intent.putExtra("email", email);
+                                            intent.putExtra("first_name", first_name);
+                                            intent.putExtra("last_name", last_name);
+                                            intent.putExtra("uid", id);
+                                            startActivity(intent);
+                                            Toast.makeText(getApplicationContext(), "Complete the form", Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
 
+                                    }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location"); // Parámetros que pedimos a facebook
+                        request.setParameters(parameters);
+                        request.executeAsync();
+//                        Profile profile = Profile.getCurrentProfile();
+
+//                        Toast.makeText(getApplicationContext(), "User ID: "
+//                                + loginResult.getAccessToken().getUserId()
+//                                + "\n" +
+//                                "Auth Token: "
+//                                + loginResult.getAccessToken().getToken()+"\n"+"Email: "+ loginResult.toString(), Toast.LENGTH_SHORT).show();
+
+                       // t2.setText(loginResult.getAccessToken().getToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(getApplicationContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        //loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() { ... });
     }
     public void loginLatter(View view) {
         Intent intent = new Intent(this, NewsFeed.class);
         startActivity(intent);
         Toast.makeText(getApplicationContext(), "Enjoy surfing", Toast.LENGTH_SHORT).show();
     }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
