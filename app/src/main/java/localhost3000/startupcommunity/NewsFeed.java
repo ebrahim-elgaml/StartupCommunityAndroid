@@ -1,5 +1,6 @@
 package localhost3000.startupcommunity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -16,9 +18,17 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
+
+import localhost3000.startupcommunity.dummy.FriendRequestList;
+
 
 public class NewsFeed extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener{
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, FriendRequestListFragment.OnFragmentInteractionListenerRequestList
+        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener{
+
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -54,8 +64,8 @@ public class NewsFeed extends AppCompatActivity
         switch(position){
             case 0:   f = new NewsFeedFragment(); break;
             case 1:   f = new ProfileFragment();break;
-            case 2:   f = new RequestFragment();break;
-            default: f = new NewsFeedFragment();
+            case 2:   f = new FriendRequestListFragment();break;
+            default: f = new FriendRequestListFragment();
         }
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
 //        fragmentManager.beginTransaction()
@@ -106,15 +116,29 @@ public class NewsFeed extends AppCompatActivity
         int id = item.getItemId();
 
 //        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+    if (id == R.id.action_settings) {
+        startActivity(new Intent(this, SettingsActivity.class));
+        return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onProfileItemSelected(int position) {
+
+    }
+    @Override
+    public void onEdit_ProfileItemSelected(int position) {
+
+    }
+
+    @Override
+    public void onStartupsItemSelected(int position) {
+
+    }
+
+    public void onStartupsFollowedItemSelected(int position) {
 
     }
 
@@ -127,10 +151,38 @@ public class NewsFeed extends AppCompatActivity
     public void onRequestFragmentInteraction(int position) {
 
     }
+    public void onClick(View v) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.Fragment f = new ProfileFragment();;
+
+        if (v.getId() == R.id.friends)
+            f = new ProfileFragment();
+        else if (v.getId() == R.id.MyStartups)
+            f = new startups();
+        else if (v.getId() == R.id.FollowedStartups)
+            f = new followed_startups();
+        else if(v.getId() == R.id.EditProfile)
+            f = new Edit_Profile();
+        else if(v.getId() == R.id.saveEdits)
+            f = new ProfileFragment();
+        fragmentManager.beginTransaction().replace(R.id.container, f).commit();
+
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+
+    }
+
+    @Override
+    public void playToast(String id) {
+        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * A placeholder fragment containing a simple view.
      */
+
     public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
@@ -173,6 +225,38 @@ public class NewsFeed extends AppCompatActivity
 //            listView.setAdapter(mNewsfeedAdapter);
             return rootView;
         }
+
+
+
+//    public static class PlaceholderFragment extends Fragment {
+//        /**
+//         * The fragment argument representing the section number for this
+//         * fragment.
+//         */
+//        private static final String ARG_SECTION_NUMBER = "section_number";
+//
+//        /**
+//         * Returns a new instance of this fragment for the given section
+//         * number.
+//         */
+//        public static PlaceholderFragment newInstance(int sectionNumber) {
+//            PlaceholderFragment fragment = new PlaceholderFragment();
+//            Bundle args = new Bundle();
+//            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+//            fragment.setArguments(args);
+//            return fragment;
+//        }
+//
+//        public PlaceholderFragment() {
+//        }
+//
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                 Bundle savedInstanceState) {
+//            View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
+//            return rootView;
+//        }
+//
 
 //        @Override
 //        public void onAttach(Activity activity) {
