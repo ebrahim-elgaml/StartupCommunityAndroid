@@ -26,7 +26,7 @@ import localhost3000.startupcommunity.dummy.FriendRequestList;
 
 public class NewsFeed extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, FriendRequestListFragment.OnFragmentInteractionListenerRequestList
-        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener,friend_profile.OnFragmentInteractionListener{
+        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener,friend_profile.OnFragmentInteractionListener,my_posts.OnFragmentInteractionListener{
 
 
     /**
@@ -126,6 +126,10 @@ public class NewsFeed extends AppCompatActivity
     public void onFriendProfileItemSelected(int position) {
 
     }
+    @Override
+    public void onMyPostsItemSelected(int position) {
+
+    }
 
     @Override
     public void onProfileItemSelected(int position) {
@@ -160,6 +164,8 @@ public class NewsFeed extends AppCompatActivity
 
         if (v.getId() == R.id.friends)
             f = new ProfileFragment();
+        else if (v.getId() == R.id.MyPosts)
+            f = new my_posts();
         else if (v.getId() == R.id.MyStartups)
             f = new startups();
         else if (v.getId() == R.id.FollowedStartups)
