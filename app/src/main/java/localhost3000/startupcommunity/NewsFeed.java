@@ -9,12 +9,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
+import localhost3000.startupcommunity.dummy.FriendRequestList;
 
 public class NewsFeed extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener{
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, FriendRequestListFragment.OnFragmentInteractionListenerRequestList
+        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener{
+
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,8 +54,8 @@ public class NewsFeed extends AppCompatActivity
         switch(position){
             case 0:   f = new NewsFeedFragment(); break;
             case 1:   f = new ProfileFragment();break;
-            case 2:   f = new RequestFragment();break;
-            default: f = new NewsFeedFragment();
+            case 2:   f = new FriendRequestListFragment();break;
+            default: f = new FriendRequestListFragment();
         }
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
 //        fragmentManager.beginTransaction()
@@ -151,13 +155,24 @@ public class NewsFeed extends AppCompatActivity
             f = new Edit_Profile();
         else if(v.getId() == R.id.saveEdits)
             f = new ProfileFragment();
-
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
 
     }
-        /**
-         * A placeholder fragment containing a simple view.
-         */
+
+    @Override
+    public void onFragmentInteraction(String id) {
+
+    }
+
+    @Override
+    public void playToast(String id) {
+        Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+
 //    public static class PlaceholderFragment extends Fragment {
 //        /**
 //         * The fragment argument representing the section number for this

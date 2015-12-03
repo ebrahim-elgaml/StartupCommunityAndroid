@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc">
+
+    <ImageView
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:id="@+id/imageView"
+        android:contentDescription="UserImage"
+        android:src="@drawable/sleep"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_item_button"
+        android:layout_gravity="right"
+        android:text="Accept"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/round_button_green"
+        android:drawableLeft="@drawable/approval"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_item_button_reject"
+        android:layout_gravity="right"
+        android:text="Reject"
+        android:background="@drawable/round_button_red"
+        android:drawableLeft="@drawable/reject"
+        android:layout_alignTop="@+id/list_item_button"
+        android:layout_toRightOf="@+id/list_item_button" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_item_string"
+        android:layout_centerHorizontal="true"
+        android:autoText="false"
+        android:keepScreenOn="true" android:textColor="#ffffff"
+        android:textStyle="bold" android:textSize="20sp" android:gravity="center"
+        android:text="Startup Community"
+        android:paddingLeft="12dp"/>
+
+</RelativeLayout>
