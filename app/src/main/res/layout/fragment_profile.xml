@@ -34,7 +34,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="130dp"
         android:layout_marginStart="163dp"
-        android:layout_marginTop="70dp"/>
+        android:layout_marginTop="70dp"
+        android:textColor="#ffffff"/>
     <TextView android:id="@+id/description" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textStyle="bold" android:textSize="15sp"
@@ -44,7 +45,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="130dp"
         android:layout_marginStart="163dp"
-        android:layout_marginTop="120dp"/>
+        android:layout_marginTop="120dp"
+        android:textColor="#ffffff"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -102,41 +104,68 @@
         android:layout_marginStart="88dp"
         android:layout_marginRight="10dp"/>
 
-    <TextView android:id="@+id/friend1" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textStyle="bold" android:textSize="15sp"
-        android:text="Renad ibrahim"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/FollowedStartups"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="120dp"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/people1"
+        android:layout_marginTop="250dp" />
 
-    <TextView android:id="@+id/friend2" android:layout_width="match_parent"
+    <TextView android:id="@+id/people1" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textStyle="bold" android:textSize="15sp"
         android:text="Ayman Nabil"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/friend1"
-        android:layout_marginLeft="10dp"
+        android:onClick="onClick"
+        android:layout_alignTop="@+id/FollowedStartups"
+        android:layout_marginLeft="100dp"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="120dp"
+        android:textColor="#ffffff"/>
 
-    <TextView android:id="@+id/friend3" android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView3"
+        android:src="@drawable/people2"
+        android:layout_marginTop="350dp" />
+
+    <TextView android:id="@+id/people2" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textStyle="bold" android:textSize="15sp"
-        android:text="Seham Ibrahim"
+        android:text="Renad Ibrahim"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/friend2"
-        android:layout_marginLeft="10dp"
+        android:onClick="onClick"
+        android:layout_alignTop="@+id/FollowedStartups"
+        android:layout_marginLeft="100dp"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="250dp"
+        android:textColor="#ffffff"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:src="@drawable/people3"
+        android:layout_marginTop="450dp" />
+
+    <TextView android:id="@+id/people3" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textStyle="bold" android:textSize="15sp"
+        android:text="Marina Sameh"
+        android:onClick="onClick"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/people1"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="200dp"
+        android:textColor="#ffffff"/>
 
 </RelativeLayout>
     <!-- Inclusion of the interface -->

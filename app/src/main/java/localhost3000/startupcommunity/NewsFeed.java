@@ -27,7 +27,7 @@ import localhost3000.startupcommunity.dummy.FriendRequestList;
 
 public class NewsFeed extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, FriendRequestListFragment.OnFragmentInteractionListenerRequestList
-        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener{
+        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener,friend_profile.OnFragmentInteractionListener{
 
 
     /**
@@ -123,6 +123,10 @@ public class NewsFeed extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onFriendProfileItemSelected(int position) {
+
+    }
 
     @Override
     public void onProfileItemSelected(int position) {
@@ -165,6 +169,8 @@ public class NewsFeed extends AppCompatActivity
             f = new Edit_Profile();
         else if(v.getId() == R.id.saveEdits)
             f = new ProfileFragment();
+        else if(v.getId() == R.id.people1 || v.getId() == R.id.people2 || v.getId() == R.id.people3   )
+            f = new friend_profile();
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
 
     }
