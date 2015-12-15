@@ -132,10 +132,6 @@ public class NewsFeed extends AppCompatActivity
     }
 
     @Override
-    public void onProfileItemSelected(int position) {
-
-    }
-    @Override
     public void onEdit_ProfileItemSelected(int position) {
 
     }

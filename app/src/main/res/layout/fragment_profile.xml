@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="localhost3000.startupcommunity.ProfileFragment">
+    tools:context="localhost3000.startupcommunity.ProfileFragment"
+    android:background="#0099cc">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -11,8 +12,6 @@
         android:src="@drawable/myriame"
         android:layout_marginLeft="29dp"
         android:layout_alignTop="@+id/fullscreen_content"
-        android:layout_alignLeft="@+id/friend1"
-        android:layout_alignStart="@+id/friend1"
         android:layout_marginStart="29dp" />
     <TextView android:id="@+id/EditProfile" android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -104,68 +103,13 @@
         android:layout_marginStart="88dp"
         android:layout_marginRight="10dp"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <ListView
+        android:layout_width="708px"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:src="@drawable/people1"
-        android:layout_marginTop="250dp" />
+        android:id="@+id/listViewFriends"
+        android:layout_below="@+id/friends"
+        android:layout_marginTop="24dp" />
 
-    <TextView android:id="@+id/people1" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textStyle="bold" android:textSize="15sp"
-        android:text="Ayman Nabil"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="onClick"
-        android:layout_alignTop="@+id/FollowedStartups"
-        android:layout_marginLeft="100dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="120dp"
-        android:textColor="#ffffff"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView3"
-        android:src="@drawable/people2"
-        android:layout_marginTop="350dp" />
-
-    <TextView android:id="@+id/people2" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textStyle="bold" android:textSize="15sp"
-        android:text="Renad Ibrahim"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="onClick"
-        android:layout_alignTop="@+id/FollowedStartups"
-        android:layout_marginLeft="100dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="250dp"
-        android:textColor="#ffffff"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
-        android:src="@drawable/people3"
-        android:layout_marginTop="450dp" />
-
-    <TextView android:id="@+id/people3" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textStyle="bold" android:textSize="15sp"
-        android:text="Marina Sameh"
-        android:onClick="onClick"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/people1"
-        android:layout_marginLeft="100dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="200dp"
-        android:textColor="#ffffff"/>
 
 </RelativeLayout>
     <!-- Inclusion of the interface -->
