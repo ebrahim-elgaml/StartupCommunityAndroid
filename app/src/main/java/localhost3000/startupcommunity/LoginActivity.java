@@ -13,13 +13,23 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-public class LoginActivity extends AppCompatActivity {
+import localhost3000.startupcommunity.API.UserApi;
+import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.util.BaseUrl;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+
+public class LoginActivity extends AppCompatActivity implements Callback<User> {
     TextView emailTextView;
     EditText firstName;
     EditText lastName;
     EditText description;
-    String id;
+    String id ;
     ImageView image;
+//    public static RestAdapter restAdapter;
 
 
     @Override
@@ -75,5 +85,58 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void register(View view) {
+        String fName = firstName.getText().toString();
+        String lName = lastName.getText().toString();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BaseUrl.link)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(BaseUrl.link)
+//                .build();
+       // RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+//        UserApi userApi = retrofit.create(UserApi.class);
+//
+//        userApi.createUser(fName, lName, emailTextView.getText().toString(), id, true, new Callback<User>() {
+//            public void onResponse(Response<User> response, Retrofit retrofit) {
+//                //Intent intent = new Intent(getApplicationContext(), NewsFeed.class);
+//                //startActivity(intent);
+//                Toast.makeText(getApplicationContext(), ""+response.body(), Toast.LENGTH_SHORT).show();
+//            }
+//            public void success(User user, Response response) {
+////                String Name = user.getName();
+////                String email = user.getEmail();
+////                String phone = user.getPhone();
+//                Intent intent = new Intent(getApplicationContext(), NewsFeed.class);
+//                startActivity(intent);
+//                Toast.makeText(getApplicationContext(), user.email, Toast.LENGTH_SHORT).show();
+//            }
+//            @Override
+//            public void onFailure(Throwable t) {
+//                Toast.makeText(getApplicationContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+        UserApi userApi = retrofit.create(UserApi.class);
+        User u = new User(fName, lName,  emailTextView.getText().toString(), id);
+       //Call<User> createUser(@Field("first_name") String first, @Field("last_name") String last, @Field("email") String email, @Field("uid") String uid);
+      //  Call<User> call = userApi.createUser(u);
+        Call<User> call = userApi.createUser(u.first_name, u.last_name, "saddsa@gmail.com", u.uid, true );
+        call.enqueue(this);
+    }
+
+    @Override
+    public void onResponse(Response<User> response, Retrofit retrofit) {
+        Intent intent = new Intent(this, NewsFeed.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), ""+response.body(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailure(Throwable t) {
+        Toast.makeText(getApplicationContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
     }
 }
