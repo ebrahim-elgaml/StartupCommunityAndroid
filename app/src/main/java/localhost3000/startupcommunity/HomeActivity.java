@@ -92,7 +92,6 @@ public class HomeActivity extends Activity {
                                     public void onCompleted(
                                             JSONObject object,
                                             GraphResponse response) {
-
                                         //Toast.makeText(getApplicationContext(), "response " + response.toString(), Toast.LENGTH_SHORT).show();
                                         String email, first_name, last_name;
                                         String id;
