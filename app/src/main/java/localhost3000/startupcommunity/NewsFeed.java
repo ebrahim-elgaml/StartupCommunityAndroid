@@ -14,14 +14,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Arrays;
 import android.widget.Toast;
 import android.view.View;
 
 import localhost3000.startupcommunity.dummy.FriendRequestList;
+import localhost3000.startupcommunity.model.Post;
+import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.model.currentUser;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class NewsFeed extends AppCompatActivity
@@ -174,6 +183,28 @@ public class NewsFeed extends AppCompatActivity
             f = new friend_profile();
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
 
+    }
+    public void Post(View v) {
+
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        EditText post = (EditText) this.findViewById(R.id.post);
+        api = adapter.create(MyApi.class);
+        api.createPost(post.getText().toString(), " ", currentUser.id, 0, 0, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                Toast.makeText(getApplicationContext(),"your post has been saved",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(),"an error occured",Toast.LENGTH_SHORT).show();
+            }
+        });
+        //FragmentManager fragmentManager = getSupportFragmentManager();
+        //android.support.v4.app.Fragment f = new my_posts();
+        //f = new my_posts();
+        //fragmentManager.beginTransaction().replace(R.id.container, f).commit();
     }
 
     @Override

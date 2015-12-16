@@ -14,12 +14,15 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +34,7 @@ import localhost3000.startupcommunity.dummy.DummyContent;
 import localhost3000.startupcommunity.dummy.FriendListItem;
 import localhost3000.startupcommunity.dummy.FriendRequestList;
 import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.model.currentUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -75,10 +79,10 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        final List<String> friends = new ArrayList<String>();
+        final List<User> friends = new ArrayList<User>();
 
         //10.0.2.2:3000/
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint("https://startup-community-myriame-ayman.c9users.io/api").build();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
         MyApi api;
         api = adapter.create(MyApi.class);
         api.getFriends(new Callback<List<User>>() {
@@ -87,43 +91,65 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
             public void success(List<User> types, Response response) {
                 Iterator<User> iterator = types.iterator();
                 while (iterator.hasNext()) {
-                    String s = iterator.next().first_name;
-                    friends.add(s);
-
+                    friends.add(iterator.next());
                 }
 
-                Toast.makeText(getActivity(),friends.size() + "",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"fffff",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                friends.add("Failure");
-                Toast.makeText(getActivity(),"ana hena aho",Toast.LENGTH_SHORT).show();
-                //throw error;
             }
         });
 
-        Toast.makeText(getActivity(),friends.size() + "",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),friends.size() + "",Toast.LENGTH_SHORT).show();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 List<FriendListItem.Friend> a = new ArrayList<FriendListItem.Friend>();
-                a.add(new FriendListItem.Friend(friends.size() + "", 1, "https://graph.facebook.com/10205421895761103/picture?type=large"));
-                //a.add(new FriendListItem.Friend(friends.get(1), 2, "https://graph.facebook.com/100004021915944/picture?type=large"));
-                //a.add(new FriendListItem.Friend(friends.get(2), 3, "https://graph.facebook.com/1460404964/picture?type=large"));
                 List<String> s = new ArrayList<String>();
-                s.add("ebrahim");
-                //s.add("myriame");
-                //s.add("renad");
+                for (int i = 0; i < friends.size(); i++) {
+                    a.add(new FriendListItem.Friend(friends.get(i).first_name + " " + friends.get(i).last_name, friends.get(i).id, friends.get(i).profile_picture));
+                    s.add(friends.get(i).id + "");
+                }
                 friendListItem = new FriendListItem(getActivity(), a, s);
 
                 mListView = (AbsListView) view.findViewById(R.id.listViewFriends);
                 ((AdapterView<ListAdapter>) mListView).setAdapter(friendListItem);
-
             }
-            }, 1000);
-            return view;
+            }, 5000);
+
+
+
+        api.getUser(currentUser.id + "", new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                //R.string.current_user = 3;
+                TextView name = (TextView)view.findViewById(R.id.fullscreen_content);
+                name.setText(user.first_name + " " + user.last_name);
+                //name.setText("betengan");
+                ImageView image = (ImageView)view.findViewById(R.id.imageView);
+                //image=  (ImageView)view.findViewById(R.id.imageView);
+                String imgUrl = user.profile_picture;
+                Picasso.with(getActivity())
+                        .load(imgUrl)
+                        .placeholder(R.drawable.ic_action_name) // optional
+                        .error(R.drawable.sleep) // optional
+                        .resize(200, 200) // optional
+                        .centerCrop()
+                        .into(image);
+
+                Toast.makeText(getActivity(), currentUser.id + "",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(),"No user with thst id",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
      }
 
 
