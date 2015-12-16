@@ -73,5 +73,12 @@ public interface MyApi {
         @POST("/user_connections/reject")
         void rejectRequest(@Field("id") String requestId, Callback<UserConnection> callback);
 
+        @FormUrlEncoded
+        @POST("/user_connections")
+        void createRequest(@Field("user_connection[user_a_id]") String user_a_id, @Field("user_connection[user_b_id]") String user_b_id, Callback<UserConnection> callback);
+
+        @GET("/users/index/{id}")
+        void getNewUsers(@Path("id") String userId, Callback<List<User>> cb);
+
 
 }

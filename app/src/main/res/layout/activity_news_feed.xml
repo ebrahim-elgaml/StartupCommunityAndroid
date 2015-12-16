@@ -34,4 +34,10 @@
         android:name="localhost3000.startupcommunity.RequestFragment"
         tools:layout="@layout/fragment_request" />
 
+    <fragment android:id="@+id/new_request_user"
+        android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="localhost3000.startupcommunity.RequestFragment"
+        tools:layout="@layout/list_user_fragment" />
+
 </android.support.v4.widget.DrawerLayout>
