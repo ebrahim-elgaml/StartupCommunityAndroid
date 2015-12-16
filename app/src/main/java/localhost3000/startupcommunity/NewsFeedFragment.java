@@ -2,6 +2,7 @@ package localhost3000.startupcommunity;
 //import DetailedPost.java;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import localhost3000.startupcommunity.dummy.NewsFeedList;
-import localhost3000.startupcommunity.model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -71,31 +71,26 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_request, container, false);
-
-
+        final View view = inflater.inflate(R.layout.fragment_news_feed, container, false);
         final List<String> posts = new ArrayList<String>();
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint("https://startup-community-myriame-ayman.c9users.io/api").build();
-        MyApi api;
-        api = adapter.create(MyApi.class);
-        api.getFriends(new Callback<List<User>>() {
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api= adapter.create(MyApi.class);
+        api.getPosts(new Callback<List<NewsFeedList.SinglePost>>(){
 
             @Override
-            public void success(List<User> types, Response response) {
-                Iterator<User> iterator = types.iterator();
+            public void success(List<NewsFeedList.SinglePost> types, Response response) {
+                Iterator<NewsFeedList.SinglePost> iterator = types.iterator();
                 while (iterator.hasNext()) {
-                    String s = iterator.next().first_name;
+                    String s = iterator.next().getText() + "";
                     posts.add(s);
-
                 }
 
-                Toast.makeText(getActivity(),posts.size() + "",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), posts.size() + "", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void failure(RetrofitError error) {
                 posts.add("Failure");
-                Toast.makeText(getActivity(),"ana hena aho",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "ana hena aho", Toast.LENGTH_SHORT).show();
                 //throw error;
             }
         });
@@ -105,14 +100,28 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
             @Override
             public void run() {
                 List<NewsFeedList.SinglePost> a = new ArrayList<NewsFeedList.SinglePost>();
-                a.add(new NewsFeedList.SinglePost(posts.size() + "", 1, "https://graph.facebook.com/10205421895761103/picture?type=large"));
                 List<String> s = new ArrayList<String>();
-                s.add("ebrahim");
+                for(int i=0;i<posts.size();i++){
+                    a.add(new NewsFeedList.SinglePost(posts.get(i), 1, 1, 1));
+                    s.add(i+"");
+                }
                 newsFeedAdapter = new NewsFeedList(getActivity(), a, s);
-                mListView = (AbsListView) view.findViewById(R.id.listview_requests);
+                mListView = (AbsListView) view.findViewById(R.id.listview_feed);
                 ((AdapterView<ListAdapter>) mListView).setAdapter(newsFeedAdapter);
+
+                ((AdapterView<ListAdapter>) mListView).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String feed = String.valueOf(newsFeedAdapter.getItem(position));
+                        Toast.makeText(getActivity(), feed , Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), DetailActivity.class)
+                                .putExtra(Intent.EXTRA_TEXT, feed);
+                        startActivity(intent);
+                    }
+                });
             }
-        },1000);
+        }, 1000);
 
 
 //

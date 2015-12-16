@@ -15,4 +15,8 @@ public class Post {
         this.text = text;
         this.startup_id = startup_id;
     }
+
+    public String getText() {
+        return text;
+    }
 }

@@ -15,12 +15,12 @@ import java.util.List;
 import localhost3000.startupcommunity.R;
 
 
-public class NewsFeedList extends ArrayAdapter<String>  implements View.OnClickListener{
-    public static List<SinglePost> items = new ArrayList<>();
+public class CommentsList extends ArrayAdapter<String>  implements View.OnClickListener{
+    public static List<SingleComment> items = new ArrayList<>();
     private Activity context;
     PlayToastAlert soundToastAlert;
 
-    public NewsFeedList(FragmentActivity context, List<SinglePost> l, List<String> requestId) {
+    public CommentsList(FragmentActivity context, List<SingleComment> l, List<String> requestId) {
         super(context, R.layout.list_item_feed, requestId);
         this.items = l;
         this.context = context;
@@ -30,7 +30,7 @@ public class NewsFeedList extends ArrayAdapter<String>  implements View.OnClickL
 
 
 
-    private static void addItem(SinglePost item) {
+    private static void addItem(SingleComment item) {
         items.add(item);
     }
 
@@ -39,12 +39,12 @@ public class NewsFeedList extends ArrayAdapter<String>  implements View.OnClickL
         return context;
     }
     public View getView(int i, View view, ViewGroup viewGroup) {
-        SinglePost post;
-        post = (SinglePost)items.get(i);
+        SingleComment post;
+        post = (SingleComment)items.get(i);
         if (view == null) // reuse existing view
-            view = context.getLayoutInflater().inflate(R.layout.list_item_feed,
+            view = context.getLayoutInflater().inflate(R.layout.list_item_comment,
                     viewGroup, false);
-        TextView t = (TextView)view.findViewById(R.id.list_item_string);
+        TextView t = (TextView)view.findViewById(R.id.list_item_comment);
         t.setText(post.getText());
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
 //        Picasso.with(this.context)
@@ -75,7 +75,7 @@ public class NewsFeedList extends ArrayAdapter<String>  implements View.OnClickL
 
 
 
-//    public class Post {
+    //    public class Post {
 //        public int id;
 //        public int user_id;
 //        public int tagged_id;
@@ -97,48 +97,41 @@ public class NewsFeedList extends ArrayAdapter<String>  implements View.OnClickL
 ////            this.imageUrl = imageUrl;
 //        }
 //    }
-    public static class SinglePost {
+    public static class SingleComment {
         private String text ;
-        private int request_id ;
+        private int post_id ;
         private int user_id;
-        private  int startup_id;
-        public SinglePost(String text,int request_id,int user_id,int startup_id){
+        //private  int startup_id;
+        public SingleComment(String text,int post_id,int user_id){
             this.text=text;
-            this.request_id=request_id;
             this.user_id=user_id;
-            this.startup_id=startup_id;
+            this.post_id=post_id;
+            //this.startup_id=startup_id;
         }
 
-    public String getText() {
-        return text;
-    }
+        public String getText() {
+            return text;
+        }
 
-    public void setText(String text) {
-        this.text = text;
-    }
+        public void setText(String text) {
+            this.text = text;
+        }
 
-    public int getRequest_id() {
-        return request_id;
-    }
 
-    public void setRequest_id(int request_id) {
-        this.request_id = request_id;
-    }
+        public int getUser_id() {
+            return user_id;
+        }
 
-    public int getUser_id() {
-        return user_id;
-    }
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
+        }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
+        public int getPost_id() {
+            return post_id;
+        }
 
-    public int getStartup_id() {
-        return startup_id;
+        public void setPost_id(int post_id) {
+            this.post_id = post_id;
+        }
     }
-
-    public void setStartup_id(int startup_id) {
-        this.startup_id = startup_id;
-    }
-}
 }

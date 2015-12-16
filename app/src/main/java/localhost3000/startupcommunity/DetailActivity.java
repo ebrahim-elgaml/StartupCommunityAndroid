@@ -1,24 +1,28 @@
 package localhost3000.startupcommunity;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.content.Intent;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+
+import localhost3000.startupcommunity.dummy.CommentsList;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -68,34 +72,71 @@ public class DetailActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             Intent intent = getActivity().getIntent();
-            View rootView = inflater.inflate(R.layout.fragment_detail3, container, false);
+            final View rootView = inflater.inflate(R.layout.fragment_detail3, container, false);
+            final List<String> comments = new ArrayList<String>();
+            RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+            MyApi api= adapter.create(MyApi.class);
+            api.getComments(new Callback<List<CommentsList.SingleComment>>() {
+
+                @Override
+                public void success(List<CommentsList.SingleComment> types, Response response) {
+                    Iterator<CommentsList.SingleComment> iterator = types.iterator();
+                    while (iterator.hasNext()) {
+                        String s = iterator.next().getText() + "";
+                        comments.add(s);
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    throw error;
+                }
+            });
 
 
-            String [] CommentsArray ={
-                    "Comment no 1 Comment no 1 Comment no 1 Comment no 1 Comment no 1",
-                    "Comment no 2 Comment no 2 Comment no 2 Comment no 2 Comment no 2" ,
-                    "Comment no 3 Comment no 3 Comment no 3 Comment no 3 Comment no 3" ,
-                    "Comment no 4 Comment no 4 Comment no 4 Comment no 4 Comment no 4" ,
-                    "Comment no 5 Comment no 5 Comment no 5 Comment no 5 Comment no 5"
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    List<CommentsList.SingleComment> a = new ArrayList<CommentsList.SingleComment>();
+                    List<String> s = new ArrayList<String>();
+                    for(int i=0;i<comments.size();i++) {
+                        a.add(new CommentsList.SingleComment(comments.get(0), 1, 1));
+                        s.add(i+"");
+                    }
+                    final CommentsList commentsAdapter = new CommentsList(getActivity(), a, s);
+                    AbsListView mListView = (AbsListView) rootView.findViewById(R.id.listview_comment);
+                    ((AdapterView<ListAdapter>) mListView).setAdapter(commentsAdapter);
+                }
+            }, 1000);
 
-            };
-            List<String> comments = new ArrayList<String>(Arrays.asList(CommentsArray));
-            final ArrayAdapter mCommentsAdapter = new ArrayAdapter(
-                    getActivity(),
-                    R.layout.list_item_comment,
-                    R.id.list_item_feed_textview,
-                    comments
-            );
-            ListView listView = (ListView) rootView.findViewById(R.id.listview_comment);
-            listView.setAdapter(mCommentsAdapter);
-
-
-            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                String forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
-                ((TextView) rootView.findViewById(R.id.detail_text))
-                        .setText(forecastStr);
-            }
             return rootView;
         }
-    }
+//            String [] CommentsArray ={
+//                    "Comment no 1 Comment no 1 Comment no 1 Comment no 1 Comment no 1",
+//                    "Comment no 2 Comment no 2 Comment no 2 Comment no 2 Comment no 2" ,
+//                    "Comment no 3 Comment no 3 Comment no 3 Comment no 3 Comment no 3" ,
+//                    "Comment no 4 Comment no 4 Comment no 4 Comment no 4 Comment no 4" ,
+//                    "Comment no 5 Comment no 5 Comment no 5 Comment no 5 Comment no 5"
+//
+//            };
+//            List<String> comments = new ArrayList<String>(Arrays.asList(CommentsArray));
+//            final ArrayAdapter mCommentsAdapter = new ArrayAdapter(
+//                    getActivity(),
+//                    R.layout.list_item_comment,
+//                    R.id.list_item_feed_textview,
+//                    comments
+//            );
+//            ListView listView = (ListView) rootView.findViewById(R.id.listview_comment);
+//            listView.setAdapter(mCommentsAdapter);
+//
+//
+//            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+//                String forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
+//                ((TextView) rootView.findViewById(R.id.detail_text))
+//                        .setText(forecastStr);
+//            }
+
+
+}
 }
