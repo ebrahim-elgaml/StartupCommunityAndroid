@@ -42,11 +42,14 @@ public class CommentsList extends ArrayAdapter<String>  implements View.OnClickL
         SingleComment post;
         post = (SingleComment)items.get(i);
         if (view == null) // reuse existing view
-            view = context.getLayoutInflater().inflate(R.layout.list_item_comment,
+            view = context.getLayoutInflater().inflate(R.layout.fragment_detail3,
                     viewGroup, false);
         TextView t = (TextView)view.findViewById(R.id.list_item_comment);
         t.setText(post.getText());
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        //Button b = (Button)view.findViewById(R.id.list_item_button);
+       // b.setTag("accept,"+request.getRequestId());
+       // b.setOnClickListener(this);
 //        Picasso.with(this.context)
 //                .load(post.imageUrl)
 //                .placeholder(R.drawable.ic_action_name) // optional
@@ -73,40 +76,36 @@ public class CommentsList extends ArrayAdapter<String>  implements View.OnClickL
         this.context = context;
     }
 
-
-
-    //    public class Post {
-//        public int id;
-//        public int user_id;
-//        public int tagged_id;
-//        public String text;
-//        public int startup_id;
-////        public Post(int user_id, int tagged_id, String text, int startup_id){
-////            this.user_id = user_id;
-////            this.tagged_id = tagged_id;
-////            this.text = text;
-////            this.startup_id = startup_id;
-////        }
-//
-//        public String getText() {
-//            return text;
-//        }
-//        public Post(String text,int i,String z){
-//            this.text = text;
-////            this.requestId = request;
-////            this.imageUrl = imageUrl;
-//        }
-//    }
     public static class SingleComment {
         private String text ;
         private int post_id ;
         private int user_id;
+        private int id;
+        private String image;
         //private  int startup_id;
-        public SingleComment(String text,int post_id,int user_id){
+        public SingleComment(String text,int post_id,int user_id,String image,int id){
             this.text=text;
             this.user_id=user_id;
             this.post_id=post_id;
+            this.image=image;
+            this.id=id;
             //this.startup_id=startup_id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
         }
 
         public String getText() {

@@ -21,7 +21,8 @@ import retrofit.http.Path;
  */
 public interface MyApi {
     public static final String TAG = "MyApi";
-
+    @GET("/users/{id}")
+    void showUser(@Path("id") String userId, Callback<User> cb);
     //public static interface Users {
         @GET("/users/getUser/{user_id}.json")
         void getUser(@Path("user_id") String userId, Callback<User> cb);
@@ -51,19 +52,18 @@ public interface MyApi {
         @GET("/user_connections/index/{user_id}")
         void getUserConnections(@Path("user_id") String userId, Callback<List<UserConnection>> cb);
 
-        @GET("/users/{id}")
-        void showUser(@Path("id") String userId, Callback<User> cb);
+
 
 
     //}
 
 
-        @GET("/posts/timeline")
-        void getPosts(Callback<List<NewsFeedList.SinglePost>> posts);
+        @GET("/posts/timeline/{user_id}")
+        void getPosts(@Path("user_id") String userID,Callback<List<NewsFeedList.SinglePost>> posts);
 
         //adelo id eluser yeraga3leuser
-        @GET("/comments")
-        void getComments(Callback<List<CommentsList.SingleComment>> comments);
+        @GET("/posts/show_comments/{id}")
+        void getComments(@Path("id") String id,Callback<List<CommentsList.SingleComment>> comments);
 
         @FormUrlEncoded
         @POST("/user_connections/accept")
@@ -79,6 +79,12 @@ public interface MyApi {
 
         @GET("/users/index/{id}")
         void getNewUsers(@Path("id") String userId, Callback<List<User>> cb);
+
+
+        @FormUrlEncoded
+        @POST("/comments")
+        void createComment(@Field("comment[text]") String first, @Field("comment[post_id]") String last, @Field("comment[user_id]") String u, Callback<User> callback);
+
 
 
 }
