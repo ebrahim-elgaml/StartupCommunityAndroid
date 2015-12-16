@@ -1,32 +1,21 @@
 package localhost3000.startupcommunity;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -118,7 +107,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                 mListView = (AbsListView) view.findViewById(R.id.listViewFriends);
                 ((AdapterView<ListAdapter>) mListView).setAdapter(friendListItem);
             }
-            }, 5000);
+            }, 1000);
 
 
 

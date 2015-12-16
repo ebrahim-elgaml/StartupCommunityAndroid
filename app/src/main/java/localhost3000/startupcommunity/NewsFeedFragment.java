@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import localhost3000.startupcommunity.dummy.NewsFeedList;
+import localhost3000.startupcommunity.model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -73,16 +74,52 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_news_feed, container, false);
         final List<String> posts = new ArrayList<String>();
+        final List<NewsFeedList.SinglePost> a = new ArrayList<NewsFeedList.SinglePost>();
+        final List<String> s = new ArrayList<String>();
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
-        MyApi api= adapter.create(MyApi.class);
+        final MyApi api= adapter.create(MyApi.class);
         api.getPosts(new Callback<List<NewsFeedList.SinglePost>>(){
 
             @Override
             public void success(List<NewsFeedList.SinglePost> types, Response response) {
                 Iterator<NewsFeedList.SinglePost> iterator = types.iterator();
                 while (iterator.hasNext()) {
-                    String s = iterator.next().getText() + "";
-                    posts.add(s);
+                    final NewsFeedList.SinglePost it = iterator.next();
+
+
+                    api.showUser(it.getUser_id()+"", new Callback<User>() {
+                        @Override
+                        public void success(final User user, Response response) {
+                           // Toast.makeText(getActivity(), posts.size() + "", Toast.LENGTH_SHORT).show();
+                            if(it.getTagged_id()==0){
+                            a.add(new NewsFeedList.SinglePost(user.first_name+" has posted on a Startup "+ it.getText(), it.getRequest_id(), it.getUser_id(), it.getStartup_id(),user.profile_picture,it.getTagged_id()));
+                            int id=it.getId();
+                            s.add(id+"");}
+                            else{
+                                api.showUser(it.getTagged_id()+"",new Callback<User>() {
+                                    @Override
+                                    public void success(User user1, Response response) {
+                                        a.add(new NewsFeedList.SinglePost(user.first_name+" has posted on "+user1.first_name +"profile "+ it.getText(), it.getRequest_id(), it.getUser_id(), it.getStartup_id(),user.profile_picture,it.getTagged_id()));
+                                        int id=it.getId();
+                                        s.add(id+"");
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                        }
+                    });
+
+
+
                 }
 
                 //Toast.makeText(getActivity(), posts.size() + "", Toast.LENGTH_SHORT).show();
@@ -99,12 +136,7 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                List<NewsFeedList.SinglePost> a = new ArrayList<NewsFeedList.SinglePost>();
-                List<String> s = new ArrayList<String>();
-                for(int i=0;i<posts.size();i++){
-                    a.add(new NewsFeedList.SinglePost(posts.get(i), 1, 1, 1));
-                    s.add(i+"");
-                }
+
                 newsFeedAdapter = new NewsFeedList(getActivity(), a, s);
                 mListView = (AbsListView) view.findViewById(R.id.listview_feed);
                 ((AdapterView<ListAdapter>) mListView).setAdapter(newsFeedAdapter);

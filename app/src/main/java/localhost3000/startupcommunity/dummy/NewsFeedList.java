@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,13 +49,13 @@ public class NewsFeedList extends ArrayAdapter<String>  implements View.OnClickL
         TextView t = (TextView)view.findViewById(R.id.list_item_string);
         t.setText(post.getText());
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-//        Picasso.with(this.context)
-//                .load(post.imageUrl)
-//                .placeholder(R.drawable.ic_action_name) // optional
-//                .error(R.drawable.sleep) // optional
-//                .resize(200, 200) // optional
-//                .centerCrop()
-//                .into(imageView);
+        Picasso.with(this.context)
+                .load(SinglePost.image)
+                .placeholder(R.drawable.ic_action_name) // optional
+                .error(R.drawable.sleep) // optional
+                .resize(200, 200) // optional
+                .centerCrop()
+                .into(imageView);
         return view;
     }
     public void onClick(View view) {
@@ -102,12 +104,43 @@ public class NewsFeedList extends ArrayAdapter<String>  implements View.OnClickL
         private int request_id ;
         private int user_id;
         private  int startup_id;
-        public SinglePost(String text,int request_id,int user_id,int startup_id){
+        private int id;
+        private static String image;
+        private int tagged_id;
+
+        public SinglePost(String text,int request_id,int user_id,int startup_id,String image,int tagged_id){
             this.text=text;
+            this.id=id;
             this.request_id=request_id;
             this.user_id=user_id;
             this.startup_id=startup_id;
+            this.image=image;
+            this.tagged_id=tagged_id;
         }
+
+    public static String getImage() {
+        return image;
+    }
+
+    public static void setImage(String image) {
+        SinglePost.image = image;
+    }
+
+    public int getTagged_id() {
+        return tagged_id;
+    }
+
+    public void setTagged_id(int tagged_id) {
+        this.tagged_id = tagged_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getText() {
         return text;
