@@ -2,6 +2,10 @@ package localhost3000.startupcommunity;
 
 import java.util.List;
 
+import localhost3000.startupcommunity.model.Post;
+import localhost3000.startupcommunity.model.Startup;
+import localhost3000.startupcommunity.dummy.CommentsList;
+import localhost3000.startupcommunity.dummy.NewsFeedList;
 import localhost3000.startupcommunity.model.User;
 import localhost3000.startupcommunity.model.UserConnection;
 import retrofit.Callback;
@@ -20,17 +24,26 @@ public interface MyApi {
     public static final String TAG = "MyApi";
 
     //public static interface Users {
-        @GET("/user/{user_id}.json")
+        @GET("/users/getUser/{user_id}.json")
         void getUser(@Path("user_id") String userId, Callback<User> cb);
+
+        @GET("/users/getFollowedStartups/{user_id}.json")
+        void getFollowedStartups(@Path("user_id") String userId, Callback<List<Startup>> users);
 
         @GET("/user/friends")
         void getFriends(Callback<List<User>> users);
 
-        @POST("/user.json")
+
+        @FormUrlEncoded
+        @POST("/posts")
+        void createPost(@Field("text") String first, @Field("image") String last, @Field("user_id") int id, @Field("tagged_id") int tagged, @Field("startup_id") int startup, Callback<User> callback);
+
+    @POST("/user.json")
         void createUser(@Body User user, Callback<User> cb);
 
         @PUT("/user/{user_id}.json")
         void updateUser(@Path("user_id") String deviceId, @Body User user, Callback<User> cb);
+
 
         @FormUrlEncoded
         @POST("/users")
@@ -45,10 +58,17 @@ public interface MyApi {
 
     //}
 
-    //public interface Messages {
-      //  @GET("/messages/{message_id}.json")
-        //void getMessage(@Path("message_id") String messageId, Callback<Message> cb);
 
-        // etc
-    //}
+        @GET("/posts/timeline")
+        void getPosts(Callback<List<NewsFeedList.SinglePost>> posts);
+
+        //adelo id eluser yeraga3leuser
+        @GET("/comments")
+        void getComments(Callback<List<CommentsList.SingleComment>> comments);
+
+        //adelo id elstartup yerga3le elstartup
+
+        //adelo id elpost yerga3le elcomments
+
+
 }

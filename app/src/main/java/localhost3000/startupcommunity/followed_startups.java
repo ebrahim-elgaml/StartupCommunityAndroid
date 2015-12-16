@@ -7,16 +7,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link followed_startups.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link followed_startups#newInstance} factory method to
- * create an instance of this fragment.
- */
+import localhost3000.startupcommunity.dummy.FriendListItem;
+import localhost3000.startupcommunity.dummy.StartupListItem;
+import localhost3000.startupcommunity.model.Startup;
+import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.model.currentUser;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class followed_startups extends android.support.v4.app.Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +36,9 @@ public class followed_startups extends android.support.v4.app.Fragment {
     private String mParam1;
     private String mParam2;
 
+    public StartupListItem startupListItem;
+    private ListAdapter mAdapter;
+    private AbsListView mListView;
     private OnFragmentInteractionListener mListener;
 
     public followed_startups() {
@@ -63,8 +75,38 @@ public class followed_startups extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_followed_startups, container, false);
+        final View view = inflater.inflate(R.layout.fragment_followed_startups, container, false);
+        final List<User> startups = new ArrayList<User>();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        api = adapter.create(MyApi.class);
+        api.getFollowedStartups(currentUser.id + "", new Callback<List<Startup>>() {
+            @Override
+            public void success(List<Startup> startups, Response response) {
+                    Iterator<Startup> iterator = startups.iterator();
+                    while (iterator.hasNext())
+                        startups.add(iterator.next());
+                    List<Startup> a = new ArrayList<Startup>();
+                    List<String> s = new ArrayList<String>();
+                    for (int i = 0; i < startups.size(); i++) {
+                        a.add(new Startup(startups.get(i).id,startups.get(i).name,  startups.get(i).image));
+                        s.add(startups.get(i).id + "");
+                    }
+                    startupListItem = new StartupListItem(getActivity(), a, s);
+
+                    mListView = (AbsListView) view.findViewById(R.id.listViewFriends);
+                    ((AdapterView<ListAdapter>) mListView).setAdapter(startupListItem);
+                    Toast.makeText(getActivity(), "gowa el startups", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(), "gowa el startups", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        return view;
     }
 
     @Override
