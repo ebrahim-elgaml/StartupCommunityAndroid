@@ -19,10 +19,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toRightOf="@+id/profile_image"
-        android:onClick="onClick"
         android:textColor="#ffffff"
         android:paddingTop="24dp"
-        android:paddingLeft="144dp"/>
+        android:paddingLeft="144dp" />
 
 
 

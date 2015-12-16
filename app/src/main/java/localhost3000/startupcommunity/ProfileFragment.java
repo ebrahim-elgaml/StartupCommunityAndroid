@@ -74,8 +74,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
         MyApi api;
         api = adapter.create(MyApi.class);
-        api.getFriends(new Callback<List<User>>() {
-
+        api.getFriends(currentUser.id,new Callback<List<User>>() {
             @Override
             public void success(List<User> types, Response response) {
                 Iterator<User> iterator = types.iterator();
@@ -88,6 +87,9 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
 
             @Override
             public void failure(RetrofitError error) {
+                throw error;
+                //Toast.makeText(getActivity(),"fdddddddf",Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -129,7 +131,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
                         .centerCrop()
                         .into(image);
 
-                Toast.makeText(getActivity(), currentUser.id + "",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), currentUser.id + "",Toast.LENGTH_SHORT).show();
             }
 
             @Override

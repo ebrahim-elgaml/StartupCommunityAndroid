@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 import localhost3000.startupcommunity.dummy.FriendRequestList;
 import localhost3000.startupcommunity.dummy.NewUserItem;
 import localhost3000.startupcommunity.model.User;
@@ -172,7 +174,7 @@ public class NewsFeed extends AppCompatActivity
             f = new Edit_Profile();
         else if(v.getId() == R.id.register_button)
             f = new ProfileFragment();
-        else if(v.getId() == R.id.people1 || v.getId() == R.id.people2 || v.getId() == R.id.people3   )
+        else if(v.getId() == R.id.listViewFriends)
             f = new friend_profile();
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
 
@@ -200,9 +202,60 @@ public class NewsFeed extends AppCompatActivity
         //fragmentManager.beginTransaction().replace(R.id.container, f).commit();
     }
 
+    public void PostFriend(View v) {
+
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        EditText post = (EditText) this.findViewById(R.id.post);
+        api = adapter.create(MyApi.class);
+        api.createPost(post.getText().toString(), " ", currentUser.id, currentUser.friend_id, 0, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                Toast.makeText(getApplicationContext(),"your post has been saved",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(),"an error occured",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void Unfriend(View v) {
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        //EditText post = (EditText) this.findViewById(R.id.post);
+        api = adapter.create(MyApi.class);
+        api.unfriend(currentUser.id, currentUser.friend_id, new Callback<List<User>>() {
+            @Override
+            public void success(List<User> users, Response response) {
+                Toast.makeText(getApplicationContext(),"You have unfriend this friend",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
+    }
+
     @Override
     public void onFragmentInteraction(String id) {
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        EditText post = (EditText) this.findViewById(R.id.post);
+        api = adapter.create(MyApi.class);
+        api.createPost(post.getText().toString(), " ", currentUser.id, currentUser.friend_id, 0, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                Toast.makeText(getApplicationContext(),"your post has been saved",Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(),"an error occured",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

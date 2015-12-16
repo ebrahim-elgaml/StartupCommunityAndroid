@@ -83,6 +83,7 @@ public class FriendRequestList extends ArrayAdapter<String>  implements View.OnC
         b2.setOnClickListener(this);
         return view;
     }
+
     public void onClick(View view) {
         Button b = (Button) view;
         if (b != null) {

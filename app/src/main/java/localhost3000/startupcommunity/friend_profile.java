@@ -3,10 +3,31 @@ package localhost3000.startupcommunity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import localhost3000.startupcommunity.dummy.FriendListItem;
+import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.model.currentUser;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 /**
@@ -26,22 +47,19 @@ public class friend_profile extends android.support.v4.app.Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    public static int ID;
     private OnFragmentInteractionListener mListener;
+
+    FriendListItem friendListItem;
+    private ListAdapter mAdapter;
+    private AbsListView mListView;
+
 
     public friend_profile() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment friend_profile.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static friend_profile newInstance(String param1, String param2) {
         friend_profile fragment = new friend_profile();
         Bundle args = new Bundle();
@@ -64,7 +82,80 @@ public class friend_profile extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friend_profile, container, false);
+
+        final View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        final List<User> friends = new ArrayList<User>();
+
+        //10.0.2.2:3000/
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        api = adapter.create(MyApi.class);
+        api.getFriends(currentUser.friend_id,new Callback<List<User>>() {
+
+            @Override
+            public void success(List<User> types, Response response) {
+                Iterator<User> iterator = types.iterator();
+                while (iterator.hasNext()) {
+                    friends.add(iterator.next());
+                }
+
+                Toast.makeText(getActivity(),"friend of my friend",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+
+        //Toast.makeText(getActivity(),friends.size() + "",Toast.LENGTH_SHORT).show();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<FriendListItem.Friend> a = new ArrayList<FriendListItem.Friend>();
+                List<String> s = new ArrayList<String>();
+                for (int i = 0; i < friends.size(); i++) {
+                    a.add(new FriendListItem.Friend(friends.get(i).first_name + " " + friends.get(i).last_name, friends.get(i).id, friends.get(i).profile_picture));
+                    s.add(friends.get(i).id + "");
+                }
+                friendListItem = new FriendListItem(getActivity(), a, s);
+
+                mListView = (AbsListView) view.findViewById(R.id.listViewFriends);
+                ((AdapterView<ListAdapter>) mListView).setAdapter(friendListItem);
+            }
+        }, 1000);
+
+
+
+        api.getUser(currentUser.friend_id + "", new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                //R.string.current_user = 3;
+                TextView name = (TextView) view.findViewById(R.id.fullscreen_content);
+                name.setText(user.first_name + " " + user.last_name);
+                //name.setText("betengan");
+                ImageView image = (ImageView) view.findViewById(R.id.imageView);
+                //image=  (ImageView)view.findViewById(R.id.imageView);
+                String imgUrl = user.profile_picture;
+                Picasso.with(getActivity())
+                        .load(imgUrl)
+                        .placeholder(R.drawable.ic_action_name) // optional
+                        .error(R.drawable.sleep) // optional
+                        .resize(200, 200) // optional
+                        .centerCrop()
+                        .into(image);
+
+                //Toast.makeText(getActivity(), currentUser.id + "", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                //Toast.makeText(getActivity(), "No user with thst id", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
+       // return inflater.inflate(R.layout.fragment_friend_profile, container, false);
     }
 
 

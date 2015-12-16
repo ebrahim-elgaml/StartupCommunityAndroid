@@ -29,15 +29,17 @@ public interface MyApi {
         @GET("/users/getFollowedStartups/{user_id}.json")
         void getFollowedStartups(@Path("user_id") String userId, Callback<List<Startup>> users);
 
-        @GET("/user/friends")
-        void getFriends(Callback<List<User>> users);
+        @GET("/users/unfriend")
+        void unfriend(@Path("user_a_id") int user_a_id,@Path("user_b_id") int user_b_id,Callback<List<User>> users);
 
+         @GET("/user/friends/{user_id}")
+        void getFriends(@Path("user_id") int user_id,Callback<List<User>> users);
 
-        @FormUrlEncoded
+    @FormUrlEncoded
         @POST("/posts")
         void createPost(@Field("text") String first, @Field("image") String last, @Field("user_id") int id, @Field("tagged_id") int tagged, @Field("startup_id") int startup, Callback<User> callback);
 
-    @POST("/user.json")
+        @POST("/user.json")
         void createUser(@Body User user, Callback<User> cb);
 
         @PUT("/user/{user_id}.json")

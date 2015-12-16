@@ -1,19 +1,28 @@
 package localhost3000.startupcommunity.dummy;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import localhost3000.startupcommunity.NavigationDrawerFragment;
+import localhost3000.startupcommunity.NewsFeed;
+import localhost3000.startupcommunity.ProfileFragment;
 import localhost3000.startupcommunity.R;
+import localhost3000.startupcommunity.SettingsActivity;
+import localhost3000.startupcommunity.friend_profile;
+import localhost3000.startupcommunity.model.currentUser;
 
 /**
  * Created by myriame on 12/15/15.
@@ -43,8 +52,8 @@ public class FriendListItem extends ArrayAdapter<String> implements View.OnClick
     }
 
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Friend request = (Friend)items.get(i);
-
+        final Friend request = (Friend)items.get(i);
+        final boolean[] clicked = {true};
         if (view == null) // reuse existing view
             view = context.getLayoutInflater().inflate(R.layout.single_friend,
                     viewGroup, false); //TODO
@@ -58,10 +67,28 @@ public class FriendListItem extends ArrayAdapter<String> implements View.OnClick
                 .resize(200, 200) // optional
                 .centerCrop()
                 .into(imageView);
-        //Button b = (Button)view.findViewById(R.id.list_item_button);
-        //b.setTag(request.getName());
-        //b.setOnClickListener(this);
-        return view;
+         t.setOnClickListener(new View.OnClickListener() {
+
+             @Override
+             public void onClick(View v) {
+                 //getContext().startActivity(new Intent(getContext(), NewsFeed.class));
+                 //FragmentManager fragmentManager = get.getFragmentManager();
+                 android.support.v4.app.Fragment f = new ProfileFragment();
+                 ;
+                 f = new friend_profile();
+                 currentUser.friend_id = request.getFriendId();
+                 clicked[0] = true;
+                 ((NewsFeed) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.container, f).commit();
+                 //viewV = context.getLayoutInflater().inflate(R.layout.single_friend,viewG, false);
+                 Toast.makeText(getContext(), request.getFriendId() + "", Toast.LENGTH_SHORT).show();
+             }
+         });
+        if (clicked[0]) {
+            Toast.makeText(getContext(),"yarab ba2a", Toast.LENGTH_SHORT).show();
+            //return context.getLayoutInflater().inflate(R.layout.fragment_friend_profile, viewGroup, false);
+        }
+        //else
+            return view;
     }
     public void onClick(View view) {
         Button b = (Button) view;
