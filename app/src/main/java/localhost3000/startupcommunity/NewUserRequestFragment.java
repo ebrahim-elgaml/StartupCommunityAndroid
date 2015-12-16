@@ -17,9 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import localhost3000.startupcommunity.dummy.DummyContent;
-import localhost3000.startupcommunity.dummy.FriendRequestList;
+import localhost3000.startupcommunity.dummy.NewUserItem;
 import localhost3000.startupcommunity.model.User;
-import localhost3000.startupcommunity.model.UserConnection;
 import localhost3000.startupcommunity.model.currentUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -27,7 +26,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class FriendRequestListFragment extends android.support.v4.app.Fragment implements AbsListView.OnItemClickListener, FriendRequestList.PlayToastAlert {
+public class NewUserRequestFragment extends android.support.v4.app.Fragment implements AbsListView.OnItemClickListener, NewUserItem.PlayToastAlert {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,10 +49,10 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
      * Views.
      */
     private ListAdapter mAdapter;
-    FriendRequestList friendRequestAdapter;
+    NewUserItem friendRequestAdapter;
     // TODO: Rename and change types of parameters
-    public static FriendRequestListFragment newInstance(String param1, String param2) {
-        FriendRequestListFragment fragment = new FriendRequestListFragment();
+    public static NewUserRequestFragment newInstance(String param1, String param2) {
+        NewUserRequestFragment fragment = new NewUserRequestFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,7 +60,7 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
         return fragment;
     }
 
-    public FriendRequestListFragment() {
+    public NewUserRequestFragment() {
     }
 
     @Override
@@ -84,76 +83,41 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       //View view = inflater.inflate(android.R.layout.simple_list_item_1, container, false);
-        final View view = inflater.inflate(R.layout.fragment_request, container, false);
+        //View view = inflater.inflate(android.R.layout.simple_list_item_1, container, false);
+        final View view = inflater.inflate(R.layout.list_user_fragment, container, false);
         final List<String> s = new ArrayList<String>();
-        final List<FriendRequestList.SingleRequest> a = new ArrayList<FriendRequestList.SingleRequest>();
+        final List<NewUserItem.SingleRequest> a = new ArrayList<NewUserItem.SingleRequest>();
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
-        final MyApi api;
+        MyApi api;
         api = adapter.create(MyApi.class);
-        api.getUserConnections( ""+currentUser.id, new Callback<List<UserConnection>>() {
+        api.getNewUsers("" + currentUser.id, new Callback<List<User>>() {
             @Override
-            public void success(List<UserConnection> userConnections, Response response) {
-                Iterator<UserConnection> iterator = userConnections.iterator();
+            public void success(List<User> users, Response response) {
+                Iterator<User> iterator = users.iterator();
                 while (iterator.hasNext()) {
-                    UserConnection conn = iterator.next();
+                    User conn = iterator.next();
                     final int id = conn.id;
-                    int user_b = conn.user_b_id;
-                    s.add(id+"");
-                    api.showUser(user_b + "", new Callback<User>() {
-                        @Override
-                        public void success(User user, Response response) {
-                            a.add(new FriendRequestList.SingleRequest(user.email, id, user.profile_picture));
-                        }
-                        @Override
-                        public void failure(RetrofitError error) {
-
-                        }
-                    });
+                    s.add(id + "");
+                    a.add(new NewUserItem.SingleRequest(conn.email, id, conn.profile_picture));
                 }
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
-                        mListView = (AbsListView) view.findViewById(R.id.listview_requests);
+                        friendRequestAdapter = new NewUserItem(getActivity(), a, s);
+                        mListView = (AbsListView) view.findViewById(R.id.listview_new_users);
                         ((AdapterView<ListAdapter>) mListView).setAdapter(friendRequestAdapter);
-
                     }
                 }, 2000);
 
 
             }
+
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), error.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        // Set the adapter
-
-
-//        friendRequestAdapter =  new FriendRequestList()
-        //FriendRequestList f = new FriendRequestList(this, a,s);
-        // Set OnItemClickListener so we can be notified on item clicks
-//
-//        a.add(new FriendRequestList.SingleRequest("Ebrahim Elgaml", 1, "https://graph.facebook.com/10205421895761103/picture?type=large"));
-//        a.add(new FriendRequestList.SingleRequest("Myriame Ayman", 2, "https://graph.facebook.com/100004021915944/picture?type=large"));
-//        a.add(new FriendRequestList.SingleRequest("renad Shabaan", 3, "https://graph.facebook.com/1460404964/picture?type=large"));
-//
-//        s.add("ebrahim");
-//        s.add("myriame");
-//        s.add("renad");
-//        friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
-//
-//
-//
-//        //mListView.setOnItemClickListener(this);
-//        //mListView = (AbsListView) view.findViewById(android.R.id.list);
-//        mListView = (AbsListView) view.findViewById(R.id.listview_requests);
-//        //((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-//        ((AdapterView<ListAdapter>) mListView).setAdapter(friendRequestAdapter);
-//
-
         return view;
     }
 
@@ -198,39 +162,9 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
 
     @Override
     public void playToast(String id) {
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
-        MyApi api;
-        api = adapter.create(MyApi.class);
-        api.acceptRequest(id, new Callback<UserConnection>() {
-            @Override
-            public void success(UserConnection userConnection, Response response) {
-                Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-       // Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void playToastReject(String id) {
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
-        MyApi api;
-        api = adapter.create(MyApi.class);
-        api.rejectRequest(id, new Callback<UserConnection>() {
-            @Override
-            public void success(UserConnection userConnection, Response response) {
-                Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
 
     /**

@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 .load(imgUrl)
                 .placeholder(R.drawable.ic_action_name) // optional
                 .error(R.drawable.sleep) // optional
-                .resize(200, 200) // optional
+                .resize(150, 150) // optional
                 .centerCrop()
                 .into(image);
     }

@@ -182,6 +182,11 @@ public class ProfileFragment extends android.support.v4.app.Fragment implements 
         Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void playToastReject(String id) {
+
+    }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

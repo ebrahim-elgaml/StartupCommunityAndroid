@@ -15,25 +15,16 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list_item_button"
+        android:id="@+id/send_request"
         android:layout_gravity="right"
-        android:text="Accept"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_centerHorizontal="true"
+        android:text="Send request"
         android:background="@drawable/round_button_green"
-        android:drawableLeft="@drawable/approval"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_item_button_reject"
-        android:layout_gravity="right"
-        android:text="Reject"
-        android:background="@drawable/round_button_red"
-        android:drawableLeft="@drawable/reject"
-        android:layout_alignTop="@+id/list_item_button"
-        android:layout_toRightOf="@+id/list_item_button" />
-
-
+        android:drawableLeft="@drawable/approval"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="85dp"
+        android:layout_marginEnd="85dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,8 +35,8 @@
         android:text="Startup Community"
         android:paddingLeft="12dp"
         android:layout_alignTop="@+id/imageView"
-        android:layout_alignLeft="@+id/list_item_button"
-        android:layout_alignStart="@+id/list_item_button"
+        android:layout_alignLeft="@+id/send_request"
+        android:layout_alignStart="@+id/send_request"
         android:layout_marginLeft="28dp"
         android:layout_marginStart="28dp"
         android:layout_alignParentEnd="true"

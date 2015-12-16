@@ -10,21 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Arrays;
 import android.widget.Toast;
-import android.view.View;
 
 import localhost3000.startupcommunity.dummy.FriendRequestList;
-import localhost3000.startupcommunity.model.Post;
+import localhost3000.startupcommunity.dummy.NewUserItem;
 import localhost3000.startupcommunity.model.User;
 import localhost3000.startupcommunity.model.currentUser;
 import retrofit.Callback;
@@ -35,7 +27,7 @@ import retrofit.client.Response;
 
 public class NewsFeed extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks , ProfileFragment.OnFragmentInteractionListener, NewsFeedFragment.OnNewsFeedFragmentInteractionListener, RequestFragment.OnRequestFragmentInteractionListener, FriendRequestListFragment.OnFragmentInteractionListenerRequestList
-        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener,friend_profile.OnFragmentInteractionListener,my_posts.OnFragmentInteractionListener{
+        , FriendRequestList.PlayToastAlert, startups.OnFragmentInteractionListener, followed_startups.OnFragmentInteractionListener,Edit_Profile.OnFragmentInteractionListener,friend_profile.OnFragmentInteractionListener,my_posts.OnFragmentInteractionListener, NewUserRequestFragment.OnFragmentInteractionListenerRequestList, NewUserItem.PlayToastAlert{
 
 
     /**
@@ -73,6 +65,7 @@ public class NewsFeed extends AppCompatActivity
             case 0:   f = new NewsFeedFragment(); break;
             case 1:   f = new ProfileFragment();break;
             case 2:   f = new FriendRequestListFragment();break;
+            case 3:   f = new NewUserRequestFragment();break;
             default: f = new FriendRequestListFragment();
         }
         fragmentManager.beginTransaction().replace(R.id.container, f).commit();
@@ -215,6 +208,11 @@ public class NewsFeed extends AppCompatActivity
     @Override
     public void playToast(String id) {
         Toast.makeText(getApplicationContext(), id, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void playToastReject(String id) {
+
     }
 
     /**
