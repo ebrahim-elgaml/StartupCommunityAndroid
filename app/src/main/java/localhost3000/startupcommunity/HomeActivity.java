@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -24,7 +22,6 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-import localhost3000.startupcommunity.model.currentUser;
 import localhost3000.startupcommunity.util.SystemUiHider;
 
 /**
@@ -141,13 +138,13 @@ public class HomeActivity extends Activity {
                     }
                 });
         //loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() { ... });
-        if(currentUser.id != 0 ){
-            Button myButton = (Button)findViewById(R.id.Button_LoginLater);
-
-            ViewGroup layout = (ViewGroup) myButton.getParent();
-            //if(null!=layout) //for safety only  as you are doing onClick
-            layout.removeView(myButton);
-        }
+//        if(currentUser.id != 0 ){
+//            Button myButton = (Button)findViewById(R.id.Button_LoginLater);
+//
+//            ViewGroup layout = (ViewGroup) myButton.getParent();
+//            //if(null!=layout) //for safety only  as you are doing onClick
+//            layout.removeView(myButton);
+//        }
     }
     public void loginLatter(View view) {
         Intent intent = new Intent(this, NewsFeed.class);

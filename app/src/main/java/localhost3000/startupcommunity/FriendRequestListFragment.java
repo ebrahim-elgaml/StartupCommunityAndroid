@@ -2,6 +2,7 @@ package localhost3000.startupcommunity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import localhost3000.startupcommunity.dummy.DummyContent;
 import localhost3000.startupcommunity.dummy.FriendRequestList;
+import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.model.UserConnection;
+import localhost3000.startupcommunity.model.currentUser;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class FriendRequestListFragment extends android.support.v4.app.Fragment implements AbsListView.OnItemClickListener, FriendRequestList.PlayToastAlert {
@@ -76,31 +85,74 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        //View view = inflater.inflate(android.R.layout.simple_list_item_1, container, false);
-        View view = inflater.inflate(R.layout.fragment_request, container, false);
+        final View view = inflater.inflate(R.layout.fragment_request, container, false);
+        final List<String> s = new ArrayList<String>();
+        final List<FriendRequestList.SingleRequest> a = new ArrayList<FriendRequestList.SingleRequest>();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        final MyApi api;
+        api = adapter.create(MyApi.class);
+        api.getUserConnections( ""+currentUser.id, new Callback<List<UserConnection>>() {
+            @Override
+            public void success(List<UserConnection> userConnections, Response response) {
+                Iterator<UserConnection> iterator = userConnections.iterator();
+                while (iterator.hasNext()) {
+                    UserConnection conn = iterator.next();
+                    final int id = conn.id;
+                    int user_b = conn.user_b_id;
+                    s.add(id+"");
+                    api.showUser(user_b + "", new Callback<User>() {
+                        @Override
+                        public void success(User user, Response response) {
+                            a.add(new FriendRequestList.SingleRequest(user.email, id, user.profile_picture));
+                        }
+                        @Override
+                        public void failure(RetrofitError error) {
 
+                        }
+                    });
+                }
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
+                        mListView = (AbsListView) view.findViewById(R.id.listview_requests);
+                        ((AdapterView<ListAdapter>) mListView).setAdapter(friendRequestAdapter);
+
+                    }
+                }, 2000);
+
+
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(), error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
         // Set the adapter
 
 
 //        friendRequestAdapter =  new FriendRequestList()
         //FriendRequestList f = new FriendRequestList(this, a,s);
         // Set OnItemClickListener so we can be notified on item clicks
-        List<FriendRequestList.SingleRequest> a = new ArrayList<FriendRequestList.SingleRequest>();
-        a.add(new FriendRequestList.SingleRequest("Ebrahim Elgaml", 1, "https://graph.facebook.com/10205421895761103/picture?type=large"));
-        a.add(new FriendRequestList.SingleRequest("Myriame Ayman", 2, "https://graph.facebook.com/100004021915944/picture?type=large"));
-        a.add(new FriendRequestList.SingleRequest("renad Shabaan", 3, "https://graph.facebook.com/1460404964/picture?type=large"));
-        List<String> s = new ArrayList<String>();
-        s.add("ebrahim");
-        s.add("myriame");
-        s.add("renad");
-        friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
-
-
-        //mListView.setOnItemClickListener(this);
-        //mListView = (AbsListView) view.findViewById(android.R.id.list);
-        mListView = (AbsListView) view.findViewById(R.id.listview_requests);
-        //((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(friendRequestAdapter);
-
+//
+//        a.add(new FriendRequestList.SingleRequest("Ebrahim Elgaml", 1, "https://graph.facebook.com/10205421895761103/picture?type=large"));
+//        a.add(new FriendRequestList.SingleRequest("Myriame Ayman", 2, "https://graph.facebook.com/100004021915944/picture?type=large"));
+//        a.add(new FriendRequestList.SingleRequest("renad Shabaan", 3, "https://graph.facebook.com/1460404964/picture?type=large"));
+//
+//        s.add("ebrahim");
+//        s.add("myriame");
+//        s.add("renad");
+//        friendRequestAdapter = new FriendRequestList(getActivity(), a, s);
+//
+//
+//
+//        //mListView.setOnItemClickListener(this);
+//        //mListView = (AbsListView) view.findViewById(android.R.id.list);
+//        mListView = (AbsListView) view.findViewById(R.id.listview_requests);
+//        //((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+//        ((AdapterView<ListAdapter>) mListView).setAdapter(friendRequestAdapter);
+//
 
         return view;
     }

@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = intent.getStringExtra("email");
         String first_name = intent.getStringExtra("first_name");
         String last_name = intent.getStringExtra("last_name");
-        String id = intent.getStringExtra("uid");
+        id = intent.getStringExtra("uid");
         emailTextView = (TextView) findViewById(R.id.email);
         emailTextView.setText(email);
         firstName = (EditText) findViewById(R.id.first_name);

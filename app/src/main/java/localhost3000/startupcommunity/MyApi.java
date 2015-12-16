@@ -3,6 +3,7 @@ package localhost3000.startupcommunity;
 import java.util.List;
 
 import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.model.UserConnection;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.Field;
@@ -34,6 +35,14 @@ public interface MyApi {
         @FormUrlEncoded
         @POST("/users")
         void createUser(@Field("user[first_name]") String first, @Field("user[last_name]") String last, @Field("user[email]") String email, @Field("user[uid]") String uid, @Field("user[gender]") boolean gender, @Field("user[country]") String country, Callback<User> callback);
+
+        @GET("/user_connections/index/{user_id}")
+        void getUserConnections(@Path("user_id") String userId, Callback<List<UserConnection>> cb);
+
+        @GET("/users/{id}")
+        void showUser(@Path("id") String userId, Callback<User> cb);
+
+
     //}
 
     //public interface Messages {
