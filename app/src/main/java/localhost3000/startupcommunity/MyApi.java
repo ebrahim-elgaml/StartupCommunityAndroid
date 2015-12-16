@@ -2,6 +2,8 @@ package localhost3000.startupcommunity;
 
 import java.util.List;
 
+import localhost3000.startupcommunity.dummy.CommentsList;
+import localhost3000.startupcommunity.dummy.NewsFeedList;
 import localhost3000.startupcommunity.model.User;
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -31,15 +33,23 @@ public interface MyApi {
         @PUT("/user/{user_id}.json")
         void updateUser(@Path("user_id") String deviceId, @Body User user, Callback<User> cb);
 
+
         @FormUrlEncoded
         @POST("/users")
         void createUser(@Field("user[first_name]") String first, @Field("user[last_name]") String last, @Field("user[email]") String email, @Field("user[uid]") String uid, @Field("user[gender]") boolean gender, @Field("user[country]") String country, Callback<User> callback);
     //}
 
-    //public interface Messages {
-      //  @GET("/messages/{message_id}.json")
-        //void getMessage(@Path("message_id") String messageId, Callback<Message> cb);
 
-        // etc
-    //}
+        @GET("/posts/timeline")
+        void getPosts(Callback<List<NewsFeedList.SinglePost>> posts);
+
+        //adelo id eluser yeraga3leuser
+        @GET("/comments")
+        void getComments(Callback<List<CommentsList.SingleComment>> comments);
+
+        //adelo id elstartup yerga3le elstartup
+
+        //adelo id elpost yerga3le elcomments
+
+
 }
