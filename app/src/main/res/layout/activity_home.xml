@@ -22,7 +22,7 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Login Later"
+        android:text="Conitinue surfing"
         android:id="@+id/Button_LoginLater"
         android:layout_gravity="center"
         android:layout_marginTop="144dp"

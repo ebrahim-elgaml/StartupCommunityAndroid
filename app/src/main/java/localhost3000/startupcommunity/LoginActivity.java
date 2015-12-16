@@ -13,14 +13,22 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.model.currentUser;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class LoginActivity extends AppCompatActivity {
     TextView emailTextView;
     EditText firstName;
     EditText lastName;
-    EditText description;
+    EditText country;
     String id;
     ImageView image;
-
+    boolean gender = true;
+//    String country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         firstName.setText(first_name);
         lastName = (EditText) findViewById(R.id.last_name);
         lastName.setText(last_name);
-        description = (EditText) findViewById(R.id.description);
-        description.setText("Write something about you");
+        country = (EditText) findViewById(R.id.country);
+        country.setText("Egypt");
         image=  (ImageView)findViewById(R.id.profile_image);
         String imgUrl = "https://graph.facebook.com/"+id+"/picture?type=large";
         Picasso.with(this)
@@ -75,5 +83,28 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void register(View view) {
+        String fName = firstName.getText().toString();
+        String lName = lastName.getText().toString();
+        String myCountry = country.getText().toString();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        api = adapter.create(MyApi.class);
+        api.createUser(fName, lName, emailTextView.getText().toString(), id, true, myCountry, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                currentUser.id = user.id;
+                Intent intent = new Intent(getApplicationContext(), NewsFeed.class);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -7,6 +7,8 @@ import localhost3000.startupcommunity.dummy.NewsFeedList;
 import localhost3000.startupcommunity.model.User;
 import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
@@ -30,6 +32,13 @@ public interface MyApi {
 
         @PUT("/user/{user_id}.json")
         void updateUser(@Path("user_id") String deviceId, @Body User user, Callback<User> cb);
+
+
+        @FormUrlEncoded
+        @POST("/users")
+        void createUser(@Field("user[first_name]") String first, @Field("user[last_name]") String last, @Field("user[email]") String email, @Field("user[uid]") String uid, @Field("user[gender]") boolean gender, @Field("user[country]") String country, Callback<User> callback);
+    //}
+
 
         @GET("/posts/timeline")
         void getPosts(Callback<List<NewsFeedList.SinglePost>> posts);
