@@ -8,8 +8,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="facebook_app_id">1052386651448510</string>
     <string name="title_activity_friend_request">Startup Community</string>
-
-
+   <!-- <string name="ENDPOINT">http://10.0.2.2:3000/api</string>-->
 
     <string name="ENDPOINT">https://startupcomm.herokuapp.com/api/</string>
 

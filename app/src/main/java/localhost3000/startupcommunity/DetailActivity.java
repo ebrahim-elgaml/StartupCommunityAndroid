@@ -10,26 +10,30 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import localhost3000.startupcommunity.dummy.CommentsList;
+import localhost3000.startupcommunity.model.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class DetailActivity extends ActionBarActivity {
-
+    static ListView mListView;
+    CommentsList newsFeedAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -68,74 +72,128 @@ public class DetailActivity extends ActionBarActivity {
         public PlaceholderFragment() {
         }
 
-        @Override
+
+
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            final View view = inflater.inflate(R.layout.fragment_detail3, container, false);
             Intent intent = getActivity().getIntent();
-            final View rootView = inflater.inflate(R.layout.fragment_detail3, container, false);
+            String id = intent.getStringExtra("id");
             final List<String> comments = new ArrayList<String>();
+            final List<CommentsList.SingleComment> a = new ArrayList<CommentsList.SingleComment>();
+            final List<String> s = new ArrayList<String>();
             RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
-            MyApi api= adapter.create(MyApi.class);
-            api.getComments(new Callback<List<CommentsList.SingleComment>>() {
+            final MyApi api= adapter.create(MyApi.class);
+            api.getComments(id, new Callback<List<CommentsList.SingleComment>>(){
 
                 @Override
                 public void success(List<CommentsList.SingleComment> types, Response response) {
                     Iterator<CommentsList.SingleComment> iterator = types.iterator();
                     while (iterator.hasNext()) {
-                        String s = iterator.next().getText() + "";
-                        comments.add(s);
-                    }
-                }
+                        final CommentsList.SingleComment it = iterator.next();
 
+
+                        api.showUser(it.getUser_id()+"", new Callback<User>() {
+                            @Override
+                            public void success(final User user, Response response) {
+                                // Toast.makeText(getActivity(), posts.size() + "", Toast.LENGTH_SHORT).show();
+
+                                    a.add(new CommentsList.SingleComment(user.first_name+" has commented  "+ it.getText(), it.getPost_id(), it.getUser_id(), user.profile_picture,it.getId()));
+                                    int id=it.getId();
+                                    s.add(id+"");
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+
+                            }
+                        });
+
+
+
+                    }
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            CommentsList newsFeedAdapter = new CommentsList(getActivity(), a, s);
+                            mListView = (ListView) view.findViewById(R.id.listview_comment);
+                            ((AdapterView<ListAdapter>) mListView).setAdapter(newsFeedAdapter);
+
+
+                        }
+                    }, 1000);
+
+                    //Toast.makeText(getActivity(), posts.size() + "", Toast.LENGTH_SHORT).show();
+                }
                 @Override
                 public void failure(RetrofitError error) {
+                    //comments.add("Failure");
+                    //Toast.makeText(getActivity(), "ana hena aho", Toast.LENGTH_SHORT).show();
                     throw error;
                 }
             });
 
 
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    List<CommentsList.SingleComment> a = new ArrayList<CommentsList.SingleComment>();
-                    List<String> s = new ArrayList<String>();
-                    for(int i=0;i<comments.size();i++) {
-                        a.add(new CommentsList.SingleComment(comments.get(0), 1, 1));
-                        s.add(i+"");
-                    }
-                    final CommentsList commentsAdapter = new CommentsList(getActivity(), a, s);
-                    AbsListView mListView = (AbsListView) rootView.findViewById(R.id.listview_comment);
-                    ((AdapterView<ListAdapter>) mListView).setAdapter(commentsAdapter);
-                }
-            }, 1000);
 
-            return rootView;
-        }
-//            String [] CommentsArray ={
-//                    "Comment no 1 Comment no 1 Comment no 1 Comment no 1 Comment no 1",
-//                    "Comment no 2 Comment no 2 Comment no 2 Comment no 2 Comment no 2" ,
-//                    "Comment no 3 Comment no 3 Comment no 3 Comment no 3 Comment no 3" ,
-//                    "Comment no 4 Comment no 4 Comment no 4 Comment no 4 Comment no 4" ,
-//                    "Comment no 5 Comment no 5 Comment no 5 Comment no 5 Comment no 5"
+
 //
-//            };
-//            List<String> comments = new ArrayList<String>(Arrays.asList(CommentsArray));
-//            final ArrayAdapter mCommentsAdapter = new ArrayAdapter(
-//                    getActivity(),
-//                    R.layout.list_item_comment,
-//                    R.id.list_item_feed_textview,
-//                    comments
-//            );
-//            ListView listView = (ListView) rootView.findViewById(R.id.listview_comment);
-//            listView.setAdapter(mCommentsAdapter);
+//        a.add(new NewsFeedList.SinglePost("Ebrahim has posted on 7asala StartUp You are amazing :P ", 1,  "https://graph.facebook.com/100004021915944/picture?type=large"));
+//        a.add(new NewsFeedList.SinglePost("Myriame has posted on 7asala StartUp You are amazing :P ", 2, "https://graph.facebook.com/100004021915944/picture?type=large"));
+//        a.add(new NewsFeedList.SinglePost("Renad has posted on 7asala StartUp You are amazing :P ", 3, "https://graph.facebook.com/1460404964/picture?type=large"));
+//        List<String> s = new ArrayList<String>();
+//        s.add("ebrahim");
+//        s.add("myriame");
+//        s.add("renad");
+//        newsFeedAdapter = new NewsFeedList(getActivity(), a, s);
+//        mListView = (AbsListView) view.findViewById(R.id.listview_requests);
+//        ((AdapterView<ListAdapter>) mListView).setAdapter(newsFeedAdapter);
 //
-//
-//            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-//                String forecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
-//                ((TextView) rootView.findViewById(R.id.detail_text))
-//                        .setText(forecastStr);
+
+            return view;
+
+
+
+//        String [] newsFeedArray ={
+//                "Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+//                "Renad has posted on 7asala StartUp You are amazing :P"
+//                ,"Renad has posted on 7asala StartUp You are amazing :P"
+//                ,"Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+//                "Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P","Renad has posted on 7asala StartUp You are amazing :P",
+//                "Renad has posted on 7asala StartUp You are amazing :P"
+//        };
+//        List<String> newsFeed = new ArrayList<String>(Arrays.asList(newsFeedArray));
+//        final ArrayAdapter mNewsfeedAdapter = new ArrayAdapter(
+//                getActivity(),
+//                R.layout.list_item_feed,
+//                R.id.list_item_feed_textview,
+//                newsFeed
+//        );
+//        ListView listView = (ListView) rootView.findViewById(R.id.listview_feed);
+//        listView.setAdapter(mNewsfeedAdapter);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                 String feed = String.valueOf(mNewsfeedAdapter.getItem(position));
+//                 Toast.makeText(getActivity(),feed,Toast.LENGTH_SHORT).show();
+//                 Intent intent = new Intent(getActivity(),DetailActivity.class)
+//                        .putExtra(Intent.EXTRA_TEXT,feed);
+//                startActivity(intent);
 //            }
+//
+//
+//
+//        });
+
+            //return rootView;
+        }
+
+
+
+
+
+
 
 
 }

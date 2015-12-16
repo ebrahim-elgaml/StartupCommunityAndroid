@@ -19,6 +19,7 @@ import java.util.List;
 
 import localhost3000.startupcommunity.dummy.NewsFeedList;
 import localhost3000.startupcommunity.model.User;
+import localhost3000.startupcommunity.model.currentUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -78,7 +79,7 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
         final List<String> s = new ArrayList<String>();
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
         final MyApi api= adapter.create(MyApi.class);
-        api.getPosts(new Callback<List<NewsFeedList.SinglePost>>(){
+        api.getPosts(currentUser.id+"", new Callback<List<NewsFeedList.SinglePost>>(){
 
             @Override
             public void success(List<NewsFeedList.SinglePost> types, Response response) {
@@ -102,6 +103,7 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
                                         a.add(new NewsFeedList.SinglePost(user.first_name+" has posted on "+user1.first_name +"profile "+ it.getText(), it.getRequest_id(), it.getUser_id(), it.getStartup_id(),user.profile_picture,it.getTagged_id()));
                                         int id=it.getId();
                                         s.add(id+"");
+                                        posts.add(it.getText());
                                     }
 
                                     @Override
@@ -110,6 +112,28 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
                                     }
                                 });
                             }
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    newsFeedAdapter = new NewsFeedList(getActivity(), a, s);
+                                    mListView = (AbsListView) view.findViewById(R.id.listview_feed);
+                                    ((AdapterView<ListAdapter>) mListView).setAdapter(newsFeedAdapter);
+
+                                    ((AdapterView<ListAdapter>) mListView).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            String feed = String.valueOf(newsFeedAdapter.getItem(position));
+                                            Toast.makeText(getActivity(), "success" , Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getActivity(), DetailActivity.class);
+                                            intent.putExtra("id",it.getId()+"");
+                                            startActivity(intent);
+                                        }
+                                    });
+                                }
+                            }, 1000);
                         }
 
                         @Override
@@ -122,6 +146,7 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
 
                 }
 
+
                 //Toast.makeText(getActivity(), posts.size() + "", Toast.LENGTH_SHORT).show();
             }
             @Override
@@ -132,28 +157,7 @@ public class NewsFeedFragment extends android.support.v4.app.Fragment implements
             }
         });
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-                newsFeedAdapter = new NewsFeedList(getActivity(), a, s);
-                mListView = (AbsListView) view.findViewById(R.id.listview_feed);
-                ((AdapterView<ListAdapter>) mListView).setAdapter(newsFeedAdapter);
-
-                ((AdapterView<ListAdapter>) mListView).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String feed = String.valueOf(newsFeedAdapter.getItem(position));
-                        Toast.makeText(getActivity(), feed , Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), DetailActivity.class)
-                                .putExtra(Intent.EXTRA_TEXT, feed);
-                        startActivity(intent);
-                    }
-                });
-            }
-        }, 1000);
 
 
 //
