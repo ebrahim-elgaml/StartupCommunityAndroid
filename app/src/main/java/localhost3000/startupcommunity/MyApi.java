@@ -2,10 +2,9 @@ package localhost3000.startupcommunity;
 
 import java.util.List;
 
-import localhost3000.startupcommunity.model.Post;
-import localhost3000.startupcommunity.model.Startup;
 import localhost3000.startupcommunity.dummy.CommentsList;
 import localhost3000.startupcommunity.dummy.NewsFeedList;
+import localhost3000.startupcommunity.model.Startup;
 import localhost3000.startupcommunity.model.User;
 import localhost3000.startupcommunity.model.UserConnection;
 import retrofit.Callback;
@@ -66,9 +65,13 @@ public interface MyApi {
         @GET("/comments")
         void getComments(Callback<List<CommentsList.SingleComment>> comments);
 
-        //adelo id elstartup yerga3le elstartup
+        @FormUrlEncoded
+        @POST("/user_connections/accept")
+        void acceptRequest(@Field("id") String requestId, Callback<UserConnection> callback);
 
-        //adelo id elpost yerga3le elcomments
+        @FormUrlEncoded
+        @POST("/user_connections/reject")
+        void rejectRequest(@Field("id") String requestId, Callback<UserConnection> callback);
 
 
 }

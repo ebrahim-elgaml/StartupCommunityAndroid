@@ -198,10 +198,39 @@ public class FriendRequestListFragment extends android.support.v4.app.Fragment i
 
     @Override
     public void playToast(String id) {
-        Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        api = adapter.create(MyApi.class);
+        api.acceptRequest(id, new Callback<UserConnection>() {
+            @Override
+            public void success(UserConnection userConnection, Response response) {
+                Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+       // Toast.makeText(getActivity(), id, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void playToastReject(String id) {
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.ENDPOINT)).build();
+        MyApi api;
+        api = adapter.create(MyApi.class);
+        api.rejectRequest(id, new Callback<UserConnection>() {
+            @Override
+            public void success(UserConnection userConnection, Response response) {
+                Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
+    }
 
 
     /**

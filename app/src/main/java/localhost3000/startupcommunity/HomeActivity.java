@@ -105,7 +105,7 @@ public class HomeActivity extends Activity {
                                             intent.putExtra("last_name", last_name);
                                             intent.putExtra("uid", id);
                                             startActivity(intent);
-                                            Toast.makeText(getApplicationContext(), "Complete the form", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Edit your info", Toast.LENGTH_SHORT).show();
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
