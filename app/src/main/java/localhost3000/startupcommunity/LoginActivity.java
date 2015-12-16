@@ -99,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), NewsFeed.class);
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                finish();
             }
             @Override
             public void failure(RetrofitError error) {
